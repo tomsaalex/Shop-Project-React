@@ -1,0 +1,22 @@
+
+#products-list{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 350px);
+    grid-template-rows: repeat(auto-fill, 450px);
+    row-gap: 50px;
+    align-content: center;
+    justify-content: center;
+}
+
+.load-more-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+    margin-left: 0;
+}
+
+#load-more-button{
+    margin: 0 auto;
+    width: 100px;
+}

@@ -151,14 +151,6 @@ h1{
   margin-left: 160px;
 }
 
-#products-list{
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 350px);
-  grid-template-rows: repeat(auto-fill, 450px);
-  row-gap: 50px;
-  align-content: center;
-  justify-content: center;
-}
 
 .item-container{
   border-radius: 10px 10px 0 0;
@@ -306,18 +298,7 @@ h1{
   border: 5px solid var(--antique-white2);
 }
 
-.load-more-container{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: 50px;
-  margin-left: 0;
-}
 
-#load-more-button{
-  margin: 0 auto;
-  width: 100px;
-}
 
 
 .loader{
@@ -326,6 +307,6 @@ h1{
   width:5%;
 }
 
-.hidden-attribute{
+.hidden-element{
   visibility: hidden;
 }
