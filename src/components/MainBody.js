@@ -20,6 +20,10 @@ export function useAPIData(url) {
             fetch(url)
                 .then(response => response.json())
                 .then(json => {
+                    console.log(url);
+                    console.log(json);
+
+                    //debugger;
                     if (!ignore) {
                         setData(json);
                         setLastURL(url);
@@ -33,18 +37,25 @@ export function useAPIData(url) {
     return data;
 }
 
-export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems})
+export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems, queryType, searchedText})
 {
-
     let linkToFetch;
-    if(filteringCriterion === "all")
-        linkToFetch = `https://dummyjson.com/products?limit=${numberOfProductsToFetch}&skip=${numberOfProductsSkipped}`;
-    else {
-        console.log(filteringCriterion);
-        linkToFetch = `https://dummyjson.com/products/category/${filteringCriterion}?limit=${numberOfProductsToFetch}&skip=${numberOfProductsSkipped}`;
+
+    if(queryType === "filter"){
+        if(filteringCriterion === "all")
+            linkToFetch = `https://dummyjson.com/products?limit=${numberOfProductsToFetch}&skip=${numberOfProductsSkipped}`;
+        else {
+            //console.log(filteringCriterion);
+            linkToFetch = `https://dummyjson.com/products/category/${filteringCriterion}?limit=${numberOfProductsToFetch}&skip=${numberOfProductsSkipped}`;
+        }
     }
+    else if(queryType === "search"){
+        linkToFetch = `https://dummyjson.com/products/search?q=${searchedText}`;
+    }
+
     const apiData = useAPIData(linkToFetch, addNewItems);
-    console.log(linkToFetch);
+    //console.log(linkToFetch);
+    //console.log(products);
     useEffect(() =>{
 
         if(apiData != null && addNewItems)
