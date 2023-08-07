@@ -4,7 +4,7 @@ import {useCallback, useEffect, useState} from "react";
 import ProductCard from "./ProductCard";
 
 
-export function useAPIData(url) {
+export function useAPIData(url, options) {
     const [lastURL, setLastURL] = useState(""); //TODO: Ask if this is ok or should be avoided.
     const [data, setData] = useState(null);
 
@@ -17,14 +17,42 @@ export function useAPIData(url) {
     useEffect(() => {
         if (url) {
             let ignore = false;
+            if(options && options["type-of-data"] === "products")
+            {
+                let storageData = sessionStorage.getItem("store-products");
+
+                console.log(storageData);
+                let productsList = storageData ? JSON.parse(storageData) : [];
+                console.log(productsList);
+                let pageSize = options["page-size"];
+                let numItemsToSkip = options["num-items-to-skip"];
+
+                if(!ignore && productsList && numItemsToSkip + pageSize <= productsList.length)
+                {
+                    setData(
+                        {
+                            products: productsList.slice(numItemsToSkip, numItemsToSkip + pageSize)
+                        }
+                    );
+                    setLastURL(url);
+                    return;
+                }
+            }
             fetch(url)
                 .then(response => response.json())
                 .then(json => {
-                    console.log(url);
-                    console.log(json);
-
-                    //debugger;
                     if (!ignore) {
+
+                        if(options && options["type-of-data"] === "products") {
+                            let productsList = JSON.parse(sessionStorage.getItem("store-products"));
+
+                            let newProductsList = productsList ? [...productsList, ...json.products] : json.products;
+
+                            let stringifiedStuff = JSON.stringify(newProductsList);
+                            console.log(stringifiedStuff);
+
+                            sessionStorage.setItem("store-products", JSON.stringify(newProductsList));
+                        }
                         setData(json);
                         setLastURL(url);
                     }
@@ -53,7 +81,11 @@ export default function MainBody({filteringCriterion, numberOfProductsToFetch, n
         linkToFetch = `https://dummyjson.com/products/search?q=${searchedText}`;
     }
 
-    const apiData = useAPIData(linkToFetch, addNewItems);
+    const apiData = useAPIData(linkToFetch, {
+        "type-of-data": "products",
+        "num-items-to-skip": numberOfProductsSkipped,
+        "page-size": numberOfProductsToFetch
+    });
     //console.log(linkToFetch);
     //console.log(products);
     useEffect(() =>{
@@ -65,10 +97,15 @@ export default function MainBody({filteringCriterion, numberOfProductsToFetch, n
             setAddNewItems(false);
         }
     }, [apiData, addNewItems, setProducts, products, setNumberOfProductsSkipped, numberOfProductsSkipped, numberOfProductsToFetch, setAddNewItems])
+
+    function addToCache()
+    {
+
+    }
+
     function loadMoreItems()
     {
         setAddNewItems(true);
-
     }
 
     return (

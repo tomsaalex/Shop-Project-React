@@ -1,6 +1,7 @@
 import '../css/action-bar.css'
 import {useAPIData} from "./MainBody";
 import {useState} from "react";
+import {debounce} from "../utils/utils";
 
 export default function ActionBar({setFilteringCriterion, setNumberOfProductsSkipped, setProducts, addNewItems, setAddNewItems, queryType, setQueryType, setSearchedText, numberOfProductsToFetch, setNumberOfProductsToFetch }){
     let [productCategories, setProductCategories] = useState(['all']);
@@ -19,15 +20,14 @@ export default function ActionBar({setFilteringCriterion, setNumberOfProductsSki
         setAddNewItems(true);
     }
 
-    function onSearchTextChange(e)
-    {
+    const onSearchTextChangeDebounce = debounce((e) => {
         if(queryType !== "search")
             return;
         setSearchedText(e.target.value);
         setNumberOfProductsSkipped(0);
         setProducts([]);
         setAddNewItems(true);
-    }
+    }, 600);
 
     function onPageCountChange(e)
     {
@@ -54,7 +54,7 @@ export default function ActionBar({setFilteringCriterion, setNumberOfProductsSki
                 <option>Waiting for data to load....</option>
             }
         </select></label>
-        <label>Search: <input onChange={onSearchTextChange} type="text" /></label>
+        <label>Search: <input onChange={onSearchTextChangeDebounce} type="text" /></label>
         <label>
             Items per page:
             <input min="1" defaultValue={numberOfProductsToFetch} onChange={onPageCountChange} type="number"/>
