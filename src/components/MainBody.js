@@ -1,10 +1,9 @@
 import '../css/styles.css'
 import '../css/main-body.css'
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import ProductCard from "./ProductCard";
 
-
-export function useAPIData(url, options) {
+export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsToSkip) {
     const [lastURL, setLastURL] = useState(""); //TODO: Ask if this is ok or should be avoided.
     const [data, setData] = useState(null);
 
@@ -13,19 +12,22 @@ export function useAPIData(url, options) {
         setData(null);
         setLastURL(url);
     }
-    
+
     useEffect(() => {
         if (url) {
             let ignore = false;
-            if(options && options["type-of-data"] === "products")
+            if(typeOfData === "products")
             {
-                let storageData = sessionStorage.getItem("store-products");
+                let cacheName = "store-products";
+                console.log(filterCategory !== "all");
+                if(filterCategory !== "all")
+                    cacheName = `store-products-${filterCategory}`;
+
+                let storageData = sessionStorage.getItem(cacheName);
 
                 console.log(storageData);
                 let productsList = storageData ? JSON.parse(storageData) : [];
                 console.log(productsList);
-                let pageSize = options["page-size"];
-                let numItemsToSkip = options["num-items-to-skip"];
 
                 if(!ignore && productsList && numItemsToSkip + pageSize <= productsList.length)
                 {
@@ -43,8 +45,13 @@ export function useAPIData(url, options) {
                 .then(json => {
                     if (!ignore) {
 
-                        if(options && options["type-of-data"] === "products") {
-                            let productsList = JSON.parse(sessionStorage.getItem("store-products"));
+                        if(typeOfData === "products") {
+                            let cacheName = "store-products";
+                            if(filterCategory !== "all")
+                                cacheName = `store-products-${filterCategory}`;
+
+                            let storageData = sessionStorage.getItem(cacheName);
+                            let productsList = storageData ? JSON.parse(storageData) : [];
 
                             let newProductsList = productsList ? [...productsList, ...json.products] : json.products;
 
@@ -61,7 +68,7 @@ export function useAPIData(url, options) {
                 ignore = true;
             };
         }
-    }, [url]);
+    }, [filterCategory, url]);
     return data;
 }
 
@@ -81,13 +88,9 @@ export default function MainBody({filteringCriterion, numberOfProductsToFetch, n
         linkToFetch = `https://dummyjson.com/products/search?q=${searchedText}`;
     }
 
-    const apiData = useAPIData(linkToFetch, {
-        "type-of-data": "products",
-        "num-items-to-skip": numberOfProductsSkipped,
-        "page-size": numberOfProductsToFetch
-    });
-    //console.log(linkToFetch);
-    //console.log(products);
+
+    const apiData = useAPIData(linkToFetch, "products", filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped);
+
     useEffect(() =>{
 
         if(apiData != null && addNewItems)
@@ -97,11 +100,6 @@ export default function MainBody({filteringCriterion, numberOfProductsToFetch, n
             setAddNewItems(false);
         }
     }, [apiData, addNewItems, setProducts, products, setNumberOfProductsSkipped, numberOfProductsSkipped, numberOfProductsToFetch, setAddNewItems])
-
-    function addToCache()
-    {
-
-    }
 
     function loadMoreItems()
     {
