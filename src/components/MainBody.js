@@ -58,7 +58,7 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
                             let stringifiedStuff = JSON.stringify(newProductsList);
                             console.log(stringifiedStuff);
 
-                            sessionStorage.setItem("store-products", JSON.stringify(newProductsList));
+                            sessionStorage.setItem(cacheName, JSON.stringify(newProductsList));
                         }
                         setData(json);
                         setLastURL(url);
