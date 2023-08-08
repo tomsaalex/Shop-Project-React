@@ -1,0 +1,9 @@
+.user-data{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-data p{
+    display: inline-block;
+}

@@ -1,0 +1,11 @@
+
+.cart-icon-wrapper{
+    display: flex;
+    justify-content: right;
+    height: 50px;
+}
+
+.cart-icon-wrapper img{
+    padding-right: 200px;
+    height: 50px;
+}
