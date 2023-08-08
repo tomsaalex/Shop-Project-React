@@ -2,6 +2,7 @@ import {useState} from "react";
 import Header from "./Header";
 import ActionBar from "./ActionBar";
 import MainBody from "./MainBody";
+import "../css/main-body.css"
 
 export default function Store()
 {

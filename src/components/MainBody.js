@@ -44,7 +44,6 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
                 .then(response => response.json())
                 .then(json => {
                     if (!ignore) {
-
                         if(typeOfData === "products") {
                             let cacheName = "store-products";
                             if(filterCategory !== "all")

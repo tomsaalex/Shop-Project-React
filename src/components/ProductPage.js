@@ -1,5 +1,6 @@
 import {useParams} from "react-router";
 import {useAPIData} from "./MainBody";
+import "../css/product-page.css"
 
 
 export default function ProductPage(){
@@ -7,11 +8,31 @@ export default function ProductPage(){
 
     let linkToFetch = `https://dummyjson.com/products/${product_id}`;
     let element = useAPIData(linkToFetch);
+    console.log(element);
     const productPriceWithDiscount = element && element.price * (100 - element.discountPercentage) / 100;
 
     return (
         <>
-
+            <div className="item-page-wrapper">
+                <div className="item-page">
+                    <div className="item-gallery">
+                        <img className="gallery-image" src={element && element.thumbnail} />
+                    </div>
+                    <hr className="dividing-line"/>
+                    <div className="item-info">
+                        <h1>{element && element.title}</h1>
+                        <h2 className="item-description">{element && element.description}</h2>
+                        <h3>Category:<br/>{element && element.category}</h3>
+                        <h3>Brand:<br/>{element && element.brand}</h3>
+                        <span className="star-rating" style={{"--rating": element && element.rating}}></span>
+                        <div className="item-price-wrapper">
+                            <p>${element && productPriceWithDiscount.toFixed(2)}</p>
+                            <p><s>${element && element.price.toFixed(2)}</s></p>
+                        </div>
+                        <button className="product-add-to-cart-button">Add To Cart</button>
+                    </div>
+                </div>
+            </div>
         </>
     )
 
