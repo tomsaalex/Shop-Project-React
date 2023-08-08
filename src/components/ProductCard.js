@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom";
 
 export default function ProductCard({productObject})
 {
@@ -15,9 +16,13 @@ export default function ProductCard({productObject})
                         style={{display: "none"}}/>
     });
 
+    function handleClick()
+    {
+
+    }
 
     return(
-            <div className="item-container" data-id={productObject.id}>
+            <div onClick={handleClick} className="item-container" data-id={productObject.id}>
                 <div className="carousel-container">
                     <div className="thumbnails-container">
                         {thumbnailsArray}
@@ -29,7 +34,7 @@ export default function ProductCard({productObject})
                         <button className="navigation-button">{">"}</button>
                     </div>
                 </div>
-                <p className="item-title">{productObject.title}</p>
+                <Link to={`/shop/${productObject.id}`}><p className="item-title">{productObject.title}</p></Link>
                 <p className="item-description">{productObject.description}</p>
                 <div className="item-rating">Rating: <div className="star-rating"
                                                           style={{"--rating": productObject.rating}}></div> {productObject.rating}/5.00

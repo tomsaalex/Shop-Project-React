@@ -16,7 +16,7 @@ export default function ProductPage(){
             <div className="item-page-wrapper">
                 <div className="item-page">
                     <div className="item-gallery">
-                        <img className="gallery-image" src={element && element.thumbnail} />
+                        <img className="gallery-image" alt="thumbnail" src={element && element.thumbnail} />
                     </div>
                     <hr className="dividing-line"/>
                     <div className="item-info">
