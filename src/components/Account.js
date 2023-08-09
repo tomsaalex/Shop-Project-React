@@ -1,9 +1,11 @@
 import "../css/account.css"
+import Header from "./Header";
 
 export default function Account()
 {
     return (
         <>
+            <Header/>
             <h1>User Profile</h1>
             <div className="user-data">
                 <p>Name: Tomsa Alexandru Eduard</p>

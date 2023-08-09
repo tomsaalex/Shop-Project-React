@@ -21,7 +21,7 @@
     width: 100px;
 }
 
-a{
+.item-container a{
     text-decoration: none;
     color: black;
 }

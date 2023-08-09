@@ -22,8 +22,8 @@ root.render(
                   <Route path="/login" element={<UnloggedRoute><Login/></UnloggedRoute>}/>
                   <Route path="/shop" element={<Store/>}/>
                   <Route path="/shop/:product_id" element={<ProductPage/>}/>
-                  <Route path={"/account"} element={<Account />}/>
-                  <Route path={"/cart"} element={<Cart />}/>
+                  <Route path={"/account"} element={<ProtectedRoute><Account /></ProtectedRoute>}/>
+                  <Route path={"/cart"} element={<ProtectedRoute><Cart /></ProtectedRoute>}/>
               </Routes>
           </AuthProvider>
       </Router>

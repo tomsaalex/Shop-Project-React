@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {useAuth} from "./AuthProvider";
+import Header from "./Header";
 export default function Login()
 {
     const [username, setUsername] = useState("");
@@ -27,6 +28,7 @@ export default function Login()
 
     return (
         <>
+                <Header/>
                 <form>
                     <label>
                         Username:<br/>

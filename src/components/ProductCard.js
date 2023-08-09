@@ -1,8 +1,10 @@
 import {Link} from "react-router-dom";
 import {useRef} from "react";
+const cartId = require('../cart_id.json')["cart-id"];
 
 export default function ProductCard({productObject})
 {
+    const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
     const productPriceWithDiscount = productObject.price * (100 - productObject.discountPercentage) / 100;
 
     let imageLinks = [productObject.thumbnail, ...productObject["images"]];
@@ -17,6 +19,26 @@ export default function ProductCard({productObject})
                         style={{display: "none"}}/>
     });
 
+    function addProductToCart(product)
+    {
+        fetch(linkToFetch, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Internship-Auth': `${localStorage.getItem('user')}`
+            },
+            body:JSON.stringify(
+                {
+                    "products": [
+                        {
+                            "id": product.id,
+                            "quantity": 1
+                        }
+                    ]
+                })
+        })
+    }
+
     function handleClick(e)
     {
         const addToCartButton = e.target;
@@ -28,6 +50,8 @@ export default function ProductCard({productObject})
         //const buttonTitle = itemContainer.getElementsByTagName('p')[0].innerText;
         //const newPopup = createAddToCartPopup(`The product with ID: ${buttonID} and title: ${buttonTitle} has been added to your cart successfully`);
         //document.getElementById('app').appendChild(newPopup);
+
+        addProductToCart(productObject);
 
         setTimeout(function (){
             addToCartButton.textContent = "Add to cart";
