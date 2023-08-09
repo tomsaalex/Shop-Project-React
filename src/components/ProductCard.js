@@ -3,7 +3,7 @@ import {useRef} from "react";
 import {useAuth} from "./AuthProvider";
 const cartId = require('../cart_id.json')["cart-id"];
 
-export default function ProductCard({productObject})
+export default function ProductCard({productObject, setRefreshCartPanel})
 {
     const {user} = useAuth();
     const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
@@ -23,6 +23,7 @@ export default function ProductCard({productObject})
 
     function addProductToCart(product)
     {
+        setRefreshCartPanel(true);
         fetch(linkToFetch, {
             method: 'PUT',
             headers: {
@@ -52,6 +53,8 @@ export default function ProductCard({productObject})
         //const buttonTitle = itemContainer.getElementsByTagName('p')[0].innerText;
         //const newPopup = createAddToCartPopup(`The product with ID: ${buttonID} and title: ${buttonTitle} has been added to your cart successfully`);
         //document.getElementById('app').appendChild(newPopup);
+
+        let addedToCartEvent = new Event("added-to-cart");
 
         addProductToCart(productObject);
 

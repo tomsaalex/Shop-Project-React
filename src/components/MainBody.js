@@ -71,7 +71,7 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
     return data;
 }
 
-export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems, queryType, searchedText})
+export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems, queryType, searchedText, setRefreshCartPanel})
 {
     let linkToFetch;
 
@@ -110,7 +110,7 @@ export default function MainBody({filteringCriterion, numberOfProductsToFetch, n
             <div id="products-list">
                 {products.length > 0 ?
                     products.map(product => (
-                    <ProductCard key={product.id} productObject={product} />
+                    <ProductCard setRefreshCartPanel={setRefreshCartPanel} key={product.id} productObject={product} />
                 ))
                 :
                     <p>Loading...</p>

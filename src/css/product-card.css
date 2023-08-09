@@ -1,16 +1,17 @@
-.pressed-add-to-cart-button{
-    background-color: var(--button-pressed)
-}
-
-.unpressed-add-to-cart-button{
-
-}
 
 .add-to-cart-button{
     height: 30px;
     width: 35%;
     background-color: var(--button-unpressed);
     /*border: none;*/
+}
+
+.pressed-add-to-cart-button{
+    background-color: var(--button-pressed);
+}
+
+.unpressed-add-to-cart-button{
+
 }
 
 .add-to-cart-button:hover{

@@ -1,0 +1,14 @@
+.cart-panel-item-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cart-panel-item-container img{
+    margin: 0;
+}
+
+.cart-panel-item-container p{
+    display: inline-block;
+    width: 50px;
+}

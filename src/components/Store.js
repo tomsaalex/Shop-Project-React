@@ -6,6 +6,8 @@ import "../css/main-body.css"
 
 export default function Store()
 {
+    const [refreshCartPanel, setRefreshCartPanel] = useState(false);
+
     // TODO: Ask if lifting all of these states is really necessary
     let [queryType, setQueryType] = useState('filter');
     let [addNewItems, setAddNewItems] = useState(true);
@@ -18,9 +20,9 @@ export default function Store()
 
     return (
         <>
-            <Header/>
+            <Header refrehCartPanel={refreshCartPanel} setRefreshCartPanel={setRefreshCartPanel}/>
             <ActionBar setFilteringCriterion={setFilteringCriterion} setNumberOfProductsSkipped={setNumberOfProductsSkipped} setProducts={setProducts} addNewItems={addNewItems} setAddNewItems={setAddNewItems} queryType={queryType} setQueryType={setQueryType} setSearchedText={setSearchedText} numberOfProductsToFetch={numberOfProductsToFetch} setNumberOfProductsToFetch={setNumberOfProductsToFetch}/>
-            <MainBody filteringCriterion={filteringCriterion} numberOfProductsToFetch={numberOfProductsToFetch} numberOfProductsSkipped={numberOfProductsSkipped} setNumberOfProductsSkipped={setNumberOfProductsSkipped} products={products} setProducts={setProducts} addNewItems={addNewItems} setAddNewItems={setAddNewItems} queryType={queryType} searchedText={searchedText} />
+            <MainBody filteringCriterion={filteringCriterion} numberOfProductsToFetch={numberOfProductsToFetch} numberOfProductsSkipped={numberOfProductsSkipped} setNumberOfProductsSkipped={setNumberOfProductsSkipped} products={products} setProducts={setProducts} addNewItems={addNewItems} setAddNewItems={setAddNewItems} queryType={queryType} searchedText={searchedText} setRefreshCartPanel={setRefreshCartPanel}/>
         </>
     )
 }
