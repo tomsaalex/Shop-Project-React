@@ -33,7 +33,7 @@ h1{
     padding: 0;
 }
 
-#products-list{
+#products-list-cart{
     display: flex;
     flex-direction: column;
     gap: 30px;

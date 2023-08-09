@@ -1,12 +1,79 @@
-export default function CartProductCard({item})
+import {useState} from "react";
+import {debounce} from "../utils/utils";
+import "../css/product-card.css"
+
+export default function CartProductCard({ cartId, item, removeCartItem })
 {
+    const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
+    const [quantity, setQuantity] = useState(item['quantity']);
+    let addedQuantity = 0;
+
+    function updateAPIQuantity()
+    {
+        console.log(linkToFetch);
+
+        if(quantity + addedQuantity <= 0)
+        {
+            fetch(`${linkToFetch}?products[]=${item.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Internship-Auth': `${localStorage.getItem('user')}`
+                }
+            }).then(() =>
+            {
+                setQuantity(0);
+                removeCartItem(item.id);
+            });
+        }
+        else{
+
+            fetch(linkToFetch, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Internship-Auth': `${localStorage.getItem('user')}`
+                },
+                body:JSON.stringify(
+                    {
+                        "products": [
+                            {
+                                "id": item.id,
+                                "quantity": addedQuantity
+                            }
+                        ]
+                    })
+            }).then(() =>
+            {
+                setQuantity(quantity + addedQuantity);
+            });
+        }
+
+    }
+
+    const debounceUpdateAPIQuantity = debounce(updateAPIQuantity, 500);
+
+    function handleMinusButtonClick()
+    {
+        addedQuantity--;
+        debounceUpdateAPIQuantity();
+    }
+
+    function handlePlusButtonClick()
+    {
+        addedQuantity++;
+        debounceUpdateAPIQuantity();
+    }
+
     return (
         <>
             <div data-id={item.id} className="cart-item-container">
                 <img src={item["thumbnail"]} className="cart-item-thumbnail" alt="a picture of the item"></img>
                 <p className="cart-item-title">{item['title']}</p>
-                <p className="cart-item-price">${item['price']}</p>
-                <p className="cart-item-amount">x{item['quantity']}</p>
+                <p className="cart-item-price">${item['price'] * quantity}</p>
+                <button onClick={handleMinusButtonClick}>-</button>
+                <p className="cart-item-amount">x{quantity}</p>
+                <button onClick={handlePlusButtonClick} >+</button>
             </div>
         </>
     )
