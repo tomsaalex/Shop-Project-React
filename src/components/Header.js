@@ -17,6 +17,7 @@ export default function Header({ refrehCartPanel, setRefreshCartPanel })
 
 
     useEffect(() => {
+        console.log("the magic code is executing");
         if(refrehCartPanel === true)
             setRefreshCartPanel(false);
         fetch(linkToFetch, {

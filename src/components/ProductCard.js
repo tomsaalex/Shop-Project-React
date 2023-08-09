@@ -54,8 +54,6 @@ export default function ProductCard({productObject, setRefreshCartPanel})
         //const newPopup = createAddToCartPopup(`The product with ID: ${buttonID} and title: ${buttonTitle} has been added to your cart successfully`);
         //document.getElementById('app').appendChild(newPopup);
 
-        let addedToCartEvent = new Event("added-to-cart");
-
         addProductToCart(productObject);
 
         setTimeout(function (){

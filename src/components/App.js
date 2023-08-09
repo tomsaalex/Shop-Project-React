@@ -1,22 +1,25 @@
 import {Router, Routes, Route} from "react-router";
 import Homepage from "./Homepage";
-import Register from "./Register";
 import Login from "./Login";
 import Store from "./Store";
 import ProductPage from "./ProductPage";
+import {useState} from "react";
+import {AuthProvider} from "./AuthProvider";
 
 export default function App() {
+
+    const [refreshCartPanel, setRefreshCartPanel] = useState(false);
+
     return (
         <>
-            <Router>
+                <AuthProvider>
                 <Routes>
                     <Route path="/" element={<Homepage/>} />
-                    <Route path="/register" element={<Register/>}/>
                     <Route path="/login" element={<Login/>}/>
-                    <Route path="/shop" element={<Store/>}/>
-                    <Route path="/shop/:product_id" element={<ProductPage/>}/>
+                    <Route path="/shop" element={<Store refreshCartPanel={refreshCartPanel} setRefreshCartPanel={setRefreshCartPanel}/>}/>
+                    <Route path="/shop/:product_id" element={<ProductPage refreshCartPanel={refreshCartPanel} setRefreshCartPanel={setRefreshCartPanel}/>}/>
                 </Routes>
-            </Router>
+                </AuthProvider>
         </>
     )
 }

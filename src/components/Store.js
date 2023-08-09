@@ -4,9 +4,8 @@ import ActionBar from "./ActionBar";
 import MainBody from "./MainBody";
 import "../css/main-body.css"
 
-export default function Store()
+export default function Store({refreshCartPanel, setRefreshCartPanel})
 {
-    const [refreshCartPanel, setRefreshCartPanel] = useState(false);
 
     // TODO: Ask if lifting all of these states is really necessary
     let [queryType, setQueryType] = useState('filter');

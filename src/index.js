@@ -11,21 +11,23 @@ import Cart from "./components/Cart";
 import Account from "./components/Account";
 import {ProtectedRoute, UnloggedRoute} from "./components/ProtectedRoute";
 import {AuthProvider} from "./components/AuthProvider";
+import App from "./components/App";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
       <Router>
-          <AuthProvider>
-                  <Routes>
-                      <Route path="/" element={<Homepage/>} />
-                      <Route path="/login" element={<UnloggedRoute><Login/></UnloggedRoute>}/>
-                      <Route path="/shop" element={<Store/>}/>
-                      <Route path="/shop/:product_id" element={<ProductPage/>}/>
-                      <Route path={"/account"} element={<ProtectedRoute><Account /></ProtectedRoute>}/>
-                      <Route path={"/cart"} element={<ProtectedRoute><Cart /></ProtectedRoute>}/>
-                  </Routes>
-          </AuthProvider>
+          <App/>
+          {/*<AuthProvider>*/}
+          {/*        <Routes>*/}
+          {/*            <Route path="/" element={<Homepage/>} />*/}
+          {/*            <Route path="/login" element={<UnloggedRoute><Login/></UnloggedRoute>}/>*/}
+          {/*            <Route path="/shop" element={<Store/>}/>*/}
+          {/*            <Route path="/shop/:product_id" element={<ProductPage/>}/>*/}
+          {/*            <Route path={"/account"} element={<ProtectedRoute><Account /></ProtectedRoute>}/>*/}
+          {/*            <Route path={"/cart"} element={<ProtectedRoute><Cart /></ProtectedRoute>}/>*/}
+          {/*        </Routes>*/}
+          {/*</AuthProvider>*/}
       </Router>
   </React.StrictMode>
 );

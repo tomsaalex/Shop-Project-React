@@ -6,7 +6,7 @@ import {useState} from "react";
 import {useAuth} from "./AuthProvider";
 let cartId = require('../cart_id.json')["cart-id"];
 
-export default function ProductPage(){
+export default function ProductPage({refreshCartPanel, setRefreshCartPanel}){
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const { product_id } = useParams();
@@ -42,8 +42,9 @@ export default function ProductPage(){
     {
         if(!element)
             return;
-
-        console.log(element);
+        debugger;console.log('Before setRefreshCartPanel');
+        setRefreshCartPanel(true);
+        console.log('After setRefreshCartPanel');
         fetch(linkToAddToCart, {
             method: 'PUT',
             headers: {
