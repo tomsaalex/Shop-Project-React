@@ -1,9 +1,11 @@
 import {Link} from "react-router-dom";
 import {useRef} from "react";
+import {useAuth} from "./AuthProvider";
 const cartId = require('../cart_id.json')["cart-id"];
 
 export default function ProductCard({productObject})
 {
+    const {user} = useAuth();
     const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
     const productPriceWithDiscount = productObject.price * (100 - productObject.discountPercentage) / 100;
 
@@ -81,7 +83,7 @@ export default function ProductCard({productObject})
                 <div className="item-purchase-details">
                     <p className="item-price">Price: <s>${productObject.price}</s> <span
                         style={{color: 'red'}}>${productPriceWithDiscount.toFixed(2)}</span></p>
-                    <button onClick={handleClick} className="add-to-cart-button">Add To Cart</button>
+                    <button disabled={!user} onClick={handleClick} className="add-to-cart-button">Add To Cart</button>
                 </div>
             </div>
     )

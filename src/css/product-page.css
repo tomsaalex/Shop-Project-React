@@ -92,6 +92,11 @@
     border-color: orange;
 }
 
+.product-add-to-cart-button:disabled{
+    color: gray;
+    border-color: gray;
+}
+
 
 .nav-arrows{
     display: flex;

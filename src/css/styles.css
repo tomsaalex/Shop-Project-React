@@ -221,17 +221,6 @@ h1{
   width: 60%;
 }
 
-.add-to-cart-button{
-  height: 30px;
-  width: 35%;
-  background-color: var(--button-unpressed);
-  /*border: none;*/
-}
-
-.add-to-cart-button:hover{
-  background-color: var(--button-hover);
-}
-
 .add-to-cart-button:disabled{
   color: black;
   border: 1px solid black;
