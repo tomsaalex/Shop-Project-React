@@ -1,10 +1,10 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Header from "./Header";
 import ActionBar from "./ActionBar";
 import MainBody from "./MainBody";
 import "../css/main-body.css"
 
-export default function Store({refreshCartPanel, setRefreshCartPanel})
+export default function Store()
 {
 
     // TODO: Ask if lifting all of these states is really necessary
@@ -19,9 +19,9 @@ export default function Store({refreshCartPanel, setRefreshCartPanel})
 
     return (
         <>
-            <Header refrehCartPanel={refreshCartPanel} setRefreshCartPanel={setRefreshCartPanel}/>
+            <Header/>
             <ActionBar setFilteringCriterion={setFilteringCriterion} setNumberOfProductsSkipped={setNumberOfProductsSkipped} setProducts={setProducts} addNewItems={addNewItems} setAddNewItems={setAddNewItems} queryType={queryType} setQueryType={setQueryType} setSearchedText={setSearchedText} numberOfProductsToFetch={numberOfProductsToFetch} setNumberOfProductsToFetch={setNumberOfProductsToFetch}/>
-            <MainBody filteringCriterion={filteringCriterion} numberOfProductsToFetch={numberOfProductsToFetch} numberOfProductsSkipped={numberOfProductsSkipped} setNumberOfProductsSkipped={setNumberOfProductsSkipped} products={products} setProducts={setProducts} addNewItems={addNewItems} setAddNewItems={setAddNewItems} queryType={queryType} searchedText={searchedText} setRefreshCartPanel={setRefreshCartPanel}/>
+            <MainBody filteringCriterion={filteringCriterion} numberOfProductsToFetch={numberOfProductsToFetch} numberOfProductsSkipped={numberOfProductsSkipped} setNumberOfProductsSkipped={setNumberOfProductsSkipped} products={products} setProducts={setProducts} addNewItems={addNewItems} setAddNewItems={setAddNewItems} queryType={queryType} searchedText={searchedText}/>
         </>
     )
 }

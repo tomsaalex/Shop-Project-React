@@ -4,13 +4,15 @@ import "../css/product-page.css"
 import Header from "./Header";
 import {useState} from "react";
 import {useAuth} from "./AuthProvider";
+import {useCart} from "./CartContext";
 let cartId = require('../cart_id.json')["cart-id"];
 
-export default function ProductPage({refreshCartPanel, setRefreshCartPanel}){
+export default function ProductPage(){
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const { product_id } = useParams();
 
+    const { refreshCartPanel, setRefreshCartPanel } = useCart();
     let {user} = useAuth();
 
     let linkToFetchProduct = `https://dummyjson.com/products/${product_id}`;
@@ -42,9 +44,9 @@ export default function ProductPage({refreshCartPanel, setRefreshCartPanel}){
     {
         if(!element)
             return;
-        debugger;console.log('Before setRefreshCartPanel');
+
         setRefreshCartPanel(true);
-        console.log('After setRefreshCartPanel');
+
         fetch(linkToAddToCart, {
             method: 'PUT',
             headers: {
@@ -88,40 +90,10 @@ export default function ProductPage({refreshCartPanel, setRefreshCartPanel}){
                             <p>${element && productPriceWithDiscount.toFixed(2)}</p>
                             <p><s>${element && element.price.toFixed(2)}</s></p>
                         </div>
-                        <button disabled={!user} onClick={() => addProductToCart()} className="product-add-to-cart-button">Add To Cart</button>
+                        <button disabled={!user} onClick={addProductToCart} className="product-add-to-cart-button">Add To Cart</button>
                     </div>
                 </div>
             </div>
         </>
     )
-
-    /*
-    return (
-        <>
-            <div className="item-container" data-id={element && element.id}>
-                <div className="carousel-container">
-                    <div className="thumbnails-container">
-                        {element && element.thumbnailsArray}
-                    </div>
-                    <div className="nav-arrows">
-                        <button className="navigation-button">
-                            {"<"}
-                        </button>
-                        <button className="navigation-button">{">"}</button>
-                    </div>
-                </div>
-                <p className="item-title">{element && element.title}</p>
-                <p className="item-description">{element && element.description}</p>
-                <div className="item-rating">Rating: <div className="star-rating"
-                                                          style={{"--rating": element && element.rating}}></div> {element && element.rating}/5.00
-                </div>
-
-                <div className="item-purchase-details">
-                    <p className="item-price">Price: <s>${element && element.price}</s> <span
-                        style={{color: 'red'}}>${element && productPriceWithDiscount.toFixed(2)}</span></p>
-                    <button className="add-to-cart-button">Add To Cart</button>
-                </div>
-            </div>
-        </>
-    )*/
 }

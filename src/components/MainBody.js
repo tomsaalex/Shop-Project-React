@@ -71,7 +71,7 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
     return data;
 }
 
-export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems, queryType, searchedText, setRefreshCartPanel})
+export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems, queryType, searchedText })
 {
     let linkToFetch;
 
@@ -79,7 +79,6 @@ export default function MainBody({filteringCriterion, numberOfProductsToFetch, n
         if(filteringCriterion === "all")
             linkToFetch = `https://dummyjson.com/products?limit=${numberOfProductsToFetch}&skip=${numberOfProductsSkipped}`;
         else {
-            //console.log(filteringCriterion);
             linkToFetch = `https://dummyjson.com/products/category/${filteringCriterion}?limit=${numberOfProductsToFetch}&skip=${numberOfProductsSkipped}`;
         }
     }
@@ -110,7 +109,7 @@ export default function MainBody({filteringCriterion, numberOfProductsToFetch, n
             <div id="products-list">
                 {products.length > 0 ?
                     products.map(product => (
-                    <ProductCard setRefreshCartPanel={setRefreshCartPanel} key={product.id} productObject={product} />
+                    <ProductCard productObject={product} key={product.id}  />
                 ))
                 :
                     <p>Loading...</p>

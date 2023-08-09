@@ -1,10 +1,12 @@
 import {Link} from "react-router-dom";
 import {useRef} from "react";
 import {useAuth} from "./AuthProvider";
+import {useCart} from "./CartContext";
 const cartId = require('../cart_id.json')["cart-id"];
 
-export default function ProductCard({productObject, setRefreshCartPanel})
+export default function ProductCard({productObject})
 {
+    const { refreshCartPanel, setRefreshCartPanel } = useCart();
     const {user} = useAuth();
     const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
     const productPriceWithDiscount = productObject.price * (100 - productObject.discountPercentage) / 100;
@@ -23,6 +25,7 @@ export default function ProductCard({productObject, setRefreshCartPanel})
 
     function addProductToCart(product)
     {
+        //console.log(refreshCartPanel);
         setRefreshCartPanel(true);
         fetch(linkToFetch, {
             method: 'PUT',
@@ -68,12 +71,6 @@ export default function ProductCard({productObject, setRefreshCartPanel})
             <div className="item-container" data-id={productObject.id}>
                 <div className="thumbnail-container">
                     <img className="item-thumbnail" src={productObject.thumbnail} alt="thumbnail" loading="lazy" />
-                    {/*<div className="nav-arrows">*/}
-                    {/*    <button className="navigation-button">*/}
-                    {/*        {"<"}*/}
-                    {/*    </button>*/}
-                    {/*    <button className="navigation-button">{">"}</button>*/}
-                    {/*</div>*/}
                 </div>
                 <Link to={`/shop/${productObject.id}`}><p className="item-title">{productObject.title}</p></Link>
                 <p className="item-description">{productObject.description}</p>

@@ -4,10 +4,12 @@ import {useAuth} from "./AuthProvider";
 import {createContext, useEffect, useState} from "react";
 import CartProductCard from "./CartProductCard";
 import CartPanelProductCard from "./CartPanelProductCard";
+import {useCart} from "./CartContext";
 const cartId = require('../cart_id.json')["cart-id"];
 
-export default function Header({ refrehCartPanel, setRefreshCartPanel })
+export default function Header()
 {
+    const { refreshCartPanel, setRefreshCartPanel } = useCart();
     let { user, login, logout } = useAuth();
     let timerUntilPanelClose;
 
@@ -18,7 +20,7 @@ export default function Header({ refrehCartPanel, setRefreshCartPanel })
 
     useEffect(() => {
         console.log("the magic code is executing");
-        if(refrehCartPanel === true)
+        if(refreshCartPanel === true)
             setRefreshCartPanel(false);
         fetch(linkToFetch, {
             method: 'GET',
@@ -26,7 +28,7 @@ export default function Header({ refrehCartPanel, setRefreshCartPanel })
         })
             .then((res) => {return res.json()})
             .then((data) => { setCartData(data.products); setTotalPrice(data.total)});
-    }, [linkToFetch, refrehCartPanel]);
+    }, [refreshCartPanel]);
 
     function handleMouseEnter()
     {
