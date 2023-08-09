@@ -1,22 +1,80 @@
 import {useParams} from "react-router";
 import {useAPIData} from "./MainBody";
 import "../css/product-page.css"
-
+import Header from "./Header";
+import {useState} from "react";
+import {useAuth} from "./AuthProvider";
+let cartId = require('../cart_id.json')["cart-id"];
 
 export default function ProductPage(){
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
     const { product_id } = useParams();
 
-    let linkToFetch = `https://dummyjson.com/products/${product_id}`;
-    let element = useAPIData(linkToFetch);
-    console.log(element);
+    let {user} = useAuth();
+
+    let linkToFetchProduct = `https://dummyjson.com/products/${product_id}`;
+    let linkToAddToCart = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
+
+    let element = useAPIData(linkToFetchProduct);
+
     const productPriceWithDiscount = element && element.price * (100 - element.discountPercentage) / 100;
+
+    let thumbnailsList;
+    if(element)
+        thumbnailsList = [element.thumbnail, ...element.images];
+
+    function handleCarouselGoBack()
+    {
+        let newImageIndex = currentImageIndex - 1;
+        if(newImageIndex < 0)
+            newImageIndex = thumbnailsList.length - 1;
+        setCurrentImageIndex(newImageIndex);
+    }
+
+    function handleCarouselGoForward()
+    {
+        let newImageIndex = (currentImageIndex + 1) % thumbnailsList.length;
+        setCurrentImageIndex(newImageIndex);
+    }
+
+    function addProductToCart()
+    {
+        if(!element)
+            return;
+
+        console.log(element);
+        fetch(linkToAddToCart, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Internship-Auth': `${localStorage.getItem('user')}`
+            },
+            body:JSON.stringify(
+                {
+                    "products": [
+                        {
+                            "id": element.id,
+                            "quantity": 1
+                        }
+                    ]
+                })
+        })
+    }
 
     return (
         <>
+            <Header/>
             <div className="item-page-wrapper">
                 <div className="item-page">
                     <div className="item-gallery">
-                        <img className="gallery-image" alt="thumbnail" src={element && element.thumbnail} />
+                        <img className="gallery-image" alt="thumbnail" src={element && thumbnailsList[currentImageIndex]} />
+                        <div className="nav-arrows">
+                            <button onClick={handleCarouselGoBack} className="navigation-button">
+                                {"<"}
+                            </button>
+                            <button onClick={handleCarouselGoForward} className="navigation-button">{">"}</button>
+                        </div>
                     </div>
                     <hr className="dividing-line"/>
                     <div className="item-info">
@@ -29,7 +87,7 @@ export default function ProductPage(){
                             <p>${element && productPriceWithDiscount.toFixed(2)}</p>
                             <p><s>${element && element.price.toFixed(2)}</s></p>
                         </div>
-                        <button className="product-add-to-cart-button">Add To Cart</button>
+                        <button disabled={!user} onClick={() => addProductToCart()} className="product-add-to-cart-button">Add To Cart</button>
                     </div>
                 </div>
             </div>

@@ -16,6 +16,7 @@
 }
 
 .item-gallery{
+    position: relative;
     display: flex;
     width: 70%;
     align-items: center;
@@ -89,4 +90,33 @@
 .product-add-to-cart-button:hover{
     color: orange;
     border-color: orange;
+}
+
+
+.nav-arrows{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+
+}
+
+.navigation-button{
+    background-color: var(--nav-arrows-normal);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: none;
+    font-size: 30px;
+}
+
+.navigation-button:hover{
+    background-color: var(--nav-arrows-highlighted);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: none;
+    font-size: 30px;
 }

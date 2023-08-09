@@ -63,16 +63,14 @@ export default function ProductCard({productObject})
 
     return(
             <div className="item-container" data-id={productObject.id}>
-                <div className="carousel-container">
-                    <div className="thumbnails-container">
-                        {thumbnailsArray}
-                    </div>
-                    <div className="nav-arrows">
-                        <button className="navigation-button">
-                            {"<"}
-                        </button>
-                        <button className="navigation-button">{">"}</button>
-                    </div>
+                <div className="thumbnail-container">
+                    <img className="item-thumbnail" src={productObject.thumbnail} alt="thumbnail" loading="lazy" />
+                    {/*<div className="nav-arrows">*/}
+                    {/*    <button className="navigation-button">*/}
+                    {/*        {"<"}*/}
+                    {/*    </button>*/}
+                    {/*    <button className="navigation-button">{">"}</button>*/}
+                    {/*</div>*/}
                 </div>
                 <Link to={`/shop/${productObject.id}`}><p className="item-title">{productObject.title}</p></Link>
                 <p className="item-description">{productObject.description}</p>
