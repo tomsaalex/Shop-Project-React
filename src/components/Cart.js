@@ -6,10 +6,14 @@ import Header from "./Header";
 import {useDispatch, useSelector} from "react-redux";
 import {load} from "./cartSlice";
 
+import { useGetPostsQuery } from "../api/apiSlice";
+
 const cartId = require("../cart_id.json")["cart-id"];
 
 export default function Cart()
 {
+
+
     const cart = useSelector(state => state.cart.value);
     const dispatch = useDispatch();
 
@@ -17,6 +21,7 @@ export default function Cart()
     //const [cartData, setCartData] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
+    /*
     useEffect(() => {
         fetch(linkToFetch, {
             method: 'GET',
@@ -25,12 +30,38 @@ export default function Cart()
             .then((res) => {return res.json()})
             .then((data) => { dispatch(load(data.products)); setTotalPrice(data.total)});
     }, []);
-
+    */
     function removeCartItem(id)
     {
         let newCartData = cart.filter(item => item.id !== id);
         dispatch(load(newCartData));
     }
+
+    const {
+        data: posts,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetPostsQuery();
+
+    let content;
+
+    if(isLoading)
+    {
+        content = <p>Loading...</p>
+    }
+    else if(isSuccess)
+    {
+        console.log(posts);
+        content = posts.products.map((item) => <CartProductCard cartId={cartId} key={item.id} item={item} removeCartItem={removeCartItem}/>);
+    }
+    else if(isError)
+    {
+        content = <div>{error.toString()}</div>
+    }
+
+    console.log(isSuccess, content);
 
     return (
         <>
@@ -41,7 +72,7 @@ export default function Cart()
             <main>
                 <div className="cart-wrapper">
                     <div id="products-list-cart">
-                        {cart.map((item) => <CartProductCard cartId={cartId} key={item.id} item={item} removeCartItem={removeCartItem}/>)}
+                        {content}
                     </div>
                 </div>
 
