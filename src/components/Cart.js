@@ -53,7 +53,6 @@ export default function Cart()
     }
     else if(isSuccess)
     {
-        console.log(posts);
         content = posts.products.map((item) => <CartProductCard cartId={cartId} key={item.id} item={item} removeCartItem={removeCartItem}/>);
     }
     else if(isError)
@@ -61,7 +60,6 @@ export default function Cart()
         content = <div>{error.toString()}</div>
     }
 
-    console.log(isSuccess, content);
 
     return (
         <>

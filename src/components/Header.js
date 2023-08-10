@@ -5,6 +5,8 @@ import {createContext, useEffect, useState} from "react";
 import CartPanelProductCard from "./CartPanelProductCard";
 import {useDispatch, useSelector} from "react-redux";
 import {load} from "./cartSlice";
+import {useGetPostsQuery} from "../api/apiSlice";
+import CartProductCard from "./CartProductCard";
 const cartId = require('../cart_id.json')["cart-id"];
 
 export default function Header()
@@ -21,6 +23,7 @@ export default function Header()
 
     const [totalItems, setTotalItems] = useState(0);
 
+    /*
     useEffect(() => {
         if(!user)
             return;
@@ -29,8 +32,34 @@ export default function Header()
             headers: {'Internship-Auth': `${localStorage.getItem('user')}`}
         })
             .then((res) => {return res.json()})
-            .then((data) => { /*dispatch(load(data.products));*/ setTotalPrice(data.total); setTotalItems(data.totalQuantity)});
+            .then((data) => { setTotalPrice(data.total); setTotalItems(data.totalQuantity)});
     }, [cart]);
+    */
+
+    const {
+        data: posts,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetPostsQuery();
+
+    let content;
+
+    if(isLoading)
+    {
+        content = <p>Loading...</p>
+    }
+    else if(isSuccess)
+    {
+        console.log(posts);
+        content = posts.products.map((product) => <CartPanelProductCard key={product.id} item={product} />);
+    }
+    else if(isError)
+    {
+        content = <div>{error.toString()}</div>
+    }
+
 
     function handleMouseEnter()
     {
@@ -66,7 +95,7 @@ export default function Header()
                         <p>{totalItems}</p>
                     </div>
                     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} id="cart-panel" className="hidden-element">
-                        {cart.map((product) => <CartPanelProductCard key={product.id} item={product} />)}
+                        {content}
                     </div>
                 </div>
             </div>
