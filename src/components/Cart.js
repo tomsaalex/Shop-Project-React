@@ -3,12 +3,18 @@ import {useAPIData} from "./MainBody";
 import {useEffect, useState} from "react";
 import CartProductCard from "./CartProductCard";
 import Header from "./Header";
+import {useDispatch, useSelector} from "react-redux";
+import {load} from "./cartSlice";
+
 const cartId = require("../cart_id.json")["cart-id"];
 
 export default function Cart()
 {
+    const cart = useSelector(state => state.cart.value);
+    const dispatch = useDispatch();
+
     const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
-    const [cartData, setCartData] = useState([]);
+    //const [cartData, setCartData] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
@@ -17,13 +23,13 @@ export default function Cart()
             headers: {'Internship-Auth': `${localStorage.getItem('user')}`}
         })
             .then((res) => {return res.json()})
-            .then((data) => { setCartData(data.products); setTotalPrice(data.total)});
-    }, [linkToFetch]);
+            .then((data) => { dispatch(load(data.products)); setTotalPrice(data.total)});
+    }, []);
 
     function removeCartItem(id)
     {
-        let newCartData = cartData.filter(item => item.id !== id);
-        setCartData(newCartData);
+        let newCartData = cart.filter(item => item.id !== id);
+        dispatch(load(newCartData));
     }
 
     return (
@@ -35,7 +41,7 @@ export default function Cart()
             <main>
                 <div className="cart-wrapper">
                     <div id="products-list-cart">
-                        {cartData.map((item) => <CartProductCard cartId={cartId} key={item.id} item={item} removeCartItem={removeCartItem}/>)}
+                        {cart.map((item) => <CartProductCard cartId={cartId} key={item.id} item={item} removeCartItem={removeCartItem}/>)}
                     </div>
                 </div>
 

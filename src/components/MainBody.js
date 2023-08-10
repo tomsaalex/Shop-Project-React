@@ -19,15 +19,12 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
             if(typeOfData === "products")
             {
                 let cacheName = "store-products";
-                console.log(filterCategory !== "all");
                 if(filterCategory !== "all")
                     cacheName = `store-products-${filterCategory}`;
 
                 let storageData = sessionStorage.getItem(cacheName);
 
-                console.log(storageData);
                 let productsList = storageData ? JSON.parse(storageData) : [];
-                console.log(productsList);
 
                 if(!ignore && productsList && numItemsToSkip + pageSize <= productsList.length)
                 {
@@ -55,7 +52,6 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
                             let newProductsList = productsList ? [...productsList, ...json.products] : json.products;
 
                             let stringifiedStuff = JSON.stringify(newProductsList);
-                            console.log(stringifiedStuff);
 
                             sessionStorage.setItem(cacheName, JSON.stringify(newProductsList));
                         }

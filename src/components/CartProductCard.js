@@ -1,17 +1,21 @@
 import {useState} from "react";
 import {debounce} from "../utils/utils";
 import "../css/product-card.css"
+import {useDispatch, useSelector} from "react-redux";
+import {load} from "./cartSlice";
 
 export default function CartProductCard({ cartId, item, removeCartItem })
 {
+    const cart = useSelector(state => state.cart.value);
+    const dispatch = useDispatch();
+
     const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
     const [quantity, setQuantity] = useState(item['quantity']);
     let addedQuantity = 0;
 
     function updateAPIQuantity()
     {
-        console.log(linkToFetch);
-
+        debugger;
         if(quantity + addedQuantity <= 0)
         {
             fetch(`${linkToFetch}?products[]=${item.id}`, {
@@ -43,10 +47,12 @@ export default function CartProductCard({ cartId, item, removeCartItem })
                             }
                         ]
                     })
-            }).then(() =>
+            }).then((res) =>
             {
+                debugger;
                 setQuantity(quantity + addedQuantity);
-            });
+                return res.json();
+            }).then((res) => { dispatch(load(res.data.products))});
         }
 
     }
@@ -55,12 +61,14 @@ export default function CartProductCard({ cartId, item, removeCartItem })
 
     function handleMinusButtonClick()
     {
+        debugger;
         addedQuantity--;
         debounceUpdateAPIQuantity();
     }
 
     function handlePlusButtonClick()
     {
+        debugger;
         addedQuantity++;
         debounceUpdateAPIQuantity();
     }

@@ -2,27 +2,26 @@ import "../css/header.css"
 import {Link} from "react-router-dom";
 import {useAuth} from "./AuthProvider";
 import {createContext, useEffect, useState} from "react";
-import CartProductCard from "./CartProductCard";
 import CartPanelProductCard from "./CartPanelProductCard";
-import {useCart} from "./CartContext";
+import {useDispatch, useSelector} from "react-redux";
+import {load} from "./cartSlice";
 const cartId = require('../cart_id.json')["cart-id"];
 
 export default function Header()
 {
-    const { refreshCartPanel, setRefreshCartPanel } = useCart();
     let { user, login, logout } = useAuth();
     let timerUntilPanelClose;
 
+    const cart = useSelector(state => state.cart.value);
+    const dispatch = useDispatch();
+
     const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
-    const [cartData, setCartData] = useState([]);
+    //const [cartData, setCartData] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
     const [totalItems, setTotalItems] = useState(0);
 
     useEffect(() => {
-        console.log("the magic code is executing");
-        if(refreshCartPanel === true)
-            setRefreshCartPanel(false);
         if(!user)
             return;
         fetch(linkToFetch, {
@@ -30,8 +29,8 @@ export default function Header()
             headers: {'Internship-Auth': `${localStorage.getItem('user')}`}
         })
             .then((res) => {return res.json()})
-            .then((data) => { setCartData(data.products); setTotalPrice(data.total); setTotalItems(data.totalQuantity)});
-    }, [refreshCartPanel]);
+            .then((data) => { /*dispatch(load(data.products));*/ setTotalPrice(data.total); setTotalItems(data.totalQuantity)});
+    }, [cart]);
 
     function handleMouseEnter()
     {
@@ -67,7 +66,7 @@ export default function Header()
                         <p>{totalItems}</p>
                     </div>
                     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} id="cart-panel" className="hidden-element">
-                        {cartData.map((product) => <CartPanelProductCard item={product} />)}
+                        {cart.map((product) => <CartPanelProductCard key={product.id} item={product} />)}
                     </div>
                 </div>
             </div>

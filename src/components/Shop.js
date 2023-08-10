@@ -4,7 +4,7 @@ import ActionBar from "./ActionBar";
 import MainBody from "./MainBody";
 import "../css/main-body.css"
 
-export default function Store()
+export default function Shop()
 {
 
     // TODO: Ask if lifting all of these states is really necessary

@@ -1,0 +1,14 @@
+.login-form-wrapper{
+    height: 1000px;
+    text-align: center;
+}
+
+.login-form{
+    width: 200px;
+    margin: auto;
+
+}
+
+.login-form button{
+    width: 100%;
+}

@@ -4,15 +4,20 @@ import "../css/product-page.css"
 import Header from "./Header";
 import {useState} from "react";
 import {useAuth} from "./AuthProvider";
-import {useCart} from "./CartContext";
+import {useDispatch, useSelector} from "react-redux";
+import {load} from "./cartSlice";
 let cartId = require('../cart_id.json')["cart-id"];
 
 export default function ProductPage(){
+
+    const cart = useSelector(state => state.cart.value);
+    const dispatch = useDispatch();
+
+
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const { product_id } = useParams();
 
-    const { refreshCartPanel, setRefreshCartPanel } = useCart();
     let {user} = useAuth();
 
     let linkToFetchProduct = `https://dummyjson.com/products/${product_id}`;
@@ -23,7 +28,7 @@ export default function ProductPage(){
     const productPriceWithDiscount = element && element.price * (100 - element.discountPercentage) / 100;
 
     let thumbnailsList;
-    if(element)
+    if(element && element.thumbnail && element.images)
         thumbnailsList = [element.thumbnail, ...element.images];
 
     function handleCarouselGoBack()
@@ -45,8 +50,6 @@ export default function ProductPage(){
         if(!element)
             return;
 
-        setRefreshCartPanel(true);
-
         fetch(linkToAddToCart, {
             method: 'PUT',
             headers: {
@@ -62,7 +65,12 @@ export default function ProductPage(){
                         }
                     ]
                 })
-        })
+        }).then(res => res.json())
+            .then(res => {
+                dispatch(load(res.data.products));
+
+
+            })
     }
 
     return (

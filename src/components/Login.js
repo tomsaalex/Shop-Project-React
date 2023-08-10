@@ -1,6 +1,8 @@
 import {useState} from "react";
 import {useAuth} from "./AuthProvider";
 import Header from "./Header";
+import "../css/login.css"
+
 export default function Login()
 {
     const [username, setUsername] = useState("");
@@ -20,8 +22,8 @@ export default function Login()
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(loginData)
         })
-            .then(res => res.json())
-            .then(res => {login(res.token)});
+            .then(res => {return res.json()})
+            .then(res => { res.token ? login(res.token) : alert('The login data is invalid')});
 
         return false;
     }
@@ -29,17 +31,19 @@ export default function Login()
     return (
         <>
                 <Header/>
-                <form>
-                    <label>
-                        Username:<br/>
-                        <input onChange={(e) => setUsername(e.target.value)} type="text" /><br/>
-                    </label>
-                    <label>
-                        Password:<br/>
-                        <input onChange={(e) => setPassword(e.target.value)} type="password"/><br/>
-                    </label>
-                    <button onClick={onLogin}>Login</button>
-                </form>
+                <div className="login-form-wrapper">
+                    <form className="login-form">
+                        <label>
+                            Username:<br/>
+                            <input onChange={(e) => setUsername(e.target.value)} type="text" /><br/>
+                        </label>
+                        <label>
+                            Password:<br/>
+                            <input onChange={(e) => setPassword(e.target.value)} type="password"/><br/>
+                        </label>
+                        <button onClick={onLogin}>Login</button>
+                    </form>
+                </div>
         </>
     )
 }

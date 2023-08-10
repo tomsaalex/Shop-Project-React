@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import Homepage from "./components/Homepage";
 import Login from "./components/Login";
-import Store from "./components/Store";
+import Shop from "./components/Shop";
 import ProductPage from "./components/ProductPage";
 import Cart from "./components/Cart";
 import Account from "./components/Account";

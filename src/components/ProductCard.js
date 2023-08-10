@@ -1,12 +1,14 @@
 import {Link} from "react-router-dom";
-import {useRef} from "react";
 import {useAuth} from "./AuthProvider";
-import {useCart} from "./CartContext";
+import {useDispatch, useSelector} from "react-redux";
+import {load} from "./cartSlice";
 const cartId = require('../cart_id.json')["cart-id"];
 
 export default function ProductCard({productObject})
 {
-    const { refreshCartPanel, setRefreshCartPanel } = useCart();
+    const cart = useSelector(state => state.cart.value);
+    const dispatch = useDispatch();
+
     const {user} = useAuth();
     const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
     const productPriceWithDiscount = productObject.price * (100 - productObject.discountPercentage) / 100;
@@ -25,8 +27,6 @@ export default function ProductCard({productObject})
 
     function addProductToCart(product)
     {
-        //console.log(refreshCartPanel);
-        setRefreshCartPanel(true);
         fetch(linkToFetch, {
             method: 'PUT',
             headers: {
@@ -42,7 +42,12 @@ export default function ProductCard({productObject})
                         }
                     ]
                 })
+        }).then((res) => res.json())
+        .then((res) => {
+            debugger;
+            dispatch(load(res.data.products));
         })
+
     }
 
     function handleClick(e)
