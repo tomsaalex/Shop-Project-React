@@ -17,17 +17,20 @@ export default function Header()
     const [cartData, setCartData] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
+    const [totalItems, setTotalItems] = useState(0);
 
     useEffect(() => {
         console.log("the magic code is executing");
         if(refreshCartPanel === true)
             setRefreshCartPanel(false);
+        if(!user)
+            return;
         fetch(linkToFetch, {
             method: 'GET',
             headers: {'Internship-Auth': `${localStorage.getItem('user')}`}
         })
             .then((res) => {return res.json()})
-            .then((data) => { setCartData(data.products); setTotalPrice(data.total)});
+            .then((data) => { setCartData(data.products); setTotalPrice(data.total); setTotalItems(data.totalQuantity)});
     }, [refreshCartPanel]);
 
     function handleMouseEnter()
@@ -60,6 +63,9 @@ export default function Header()
             <div className="cart-icon-bar">
                 <div className="cart-panel-wrapper">
                     <img id="cart-icon" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} src={require('../images/shopping-cart-icon.png')} alt="Shopping cart icon"/>
+                    <div className="counter-bubble">
+                        <p>{totalItems}</p>
+                    </div>
                     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} id="cart-panel" className="hidden-element">
                         {cartData.map((product) => <CartPanelProductCard item={product} />)}
                     </div>

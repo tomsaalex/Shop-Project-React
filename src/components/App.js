@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {AuthProvider} from "./AuthProvider";
 import Cart from "./Cart";
 import {CartProvider} from "./CartContext";
+import Account from "./Account";
 
 export default function App() {
 
@@ -18,6 +19,8 @@ export default function App() {
                     <Routes>
                         <Route path="/" element={<Homepage/>} />
                         <Route path="/login" element={<Login/>}/>
+                        <Route path="/account" element={<Account/>}/>
+                        <Route path="/cart" element={<Cart/>}/>
                         <Route path="/shop" element={<Store/>}/>
                         <Route path="/shop/:product_id" element={<ProductPage/>}/>
                     </Routes>
