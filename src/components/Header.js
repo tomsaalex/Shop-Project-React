@@ -24,19 +24,6 @@ export default function Header()
 
     let totalItems = 0;
 
-    /*
-    useEffect(() => {
-        if(!user)
-            return;
-        fetch(linkToFetch, {
-            method: 'GET',
-            headers: {'Internship-Auth': `${localStorage.getItem('user')}`}
-        })
-            .then((res) => {return res.json()})
-            .then((data) => { setTotalPrice(data.total); setTotalItems(data.totalQuantity)});
-    }, [cart]);
-    */
-
     const {
         data: posts,
         isLoading,

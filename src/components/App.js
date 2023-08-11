@@ -9,6 +9,7 @@ import Cart from "./Cart";
 import Account from "./Account";
 import store from './store'
 import {Provider} from "react-redux";
+import {ProtectedRoute, UnloggedRoute} from "./ProtectedRoute";
 
 export default function App() {
 
@@ -19,9 +20,9 @@ export default function App() {
                 <AuthProvider>
                         <Routes>
                             <Route path="/" element={<Homepage/>} />
-                            <Route path="/login" element={<Login/>}/>
-                            <Route path="/account" element={<Account/>}/>
-                            <Route path="/cart" element={<Cart/>}/>
+                            <Route path="/login" element={<UnloggedRoute><Login/></UnloggedRoute>}/>
+                            <Route path="/account" element={<ProtectedRoute> <Account/></ProtectedRoute> }/>
+                            <Route path="/cart" element={<ProtectedRoute> <Cart/></ProtectedRoute>}/>
                             <Route path="/shop" element={<Shop/>}/>
                             <Route path="/shop/:product_id" element={<ProductPage/>}/>
                         </Routes>

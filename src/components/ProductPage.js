@@ -32,17 +32,6 @@ export default function ProductPage(){
     let linkToFetchProduct = `https://dummyjson.com/products/${product_id}`;
     let linkToAddToCart = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
 
-    //let element = useAPIData(linkToFetchProduct);
-
-    if(isSuccess)
-    {
-        //console.log(result);
-    }
-    else if(isLoading)
-    {
-
-        //console.log(result);
-    }
 
     const productPriceWithDiscount = element && element.price * (100 - element.discountPercentage) / 100;
 
@@ -69,30 +58,10 @@ export default function ProductPage(){
         if(!element)
             return;
 
-        // fetch(linkToAddToCart, {
-        //     method: 'PUT',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Internship-Auth': `${localStorage.getItem('user')}`
-        //     },
-        //     body:JSON.stringify(
-        //         {
-        //             "products": [
-        //                 {
-        //                     "id": element.id,
-        //                     "quantity": 1
-        //                 }
-        //             ]
-        //         })
-        // })
         addToCart({
             "id": element.id,
             "quantity": 1
         })
-            //.then(res => res.json())
-            //.then(res => {
-            //    //dispatch(load(res.data.products));
-            //})
     }
 
     return (

@@ -18,19 +18,8 @@ export default function Cart()
     const dispatch = useDispatch();
 
     const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
-    //const [cartData, setCartData] = useState([]);
     let totalPrice = 0;
 
-    /*
-    useEffect(() => {
-        fetch(linkToFetch, {
-            method: 'GET',
-            headers: {'Internship-Auth': `${localStorage.getItem('user')}`}
-        })
-            .then((res) => {return res.json()})
-            .then((data) => { dispatch(load(data.products)); setTotalPrice(data.total)});
-    }, []);
-    */
     function removeCartItem(id)
     {
         let newCartData = cart.filter(item => item.id !== id);

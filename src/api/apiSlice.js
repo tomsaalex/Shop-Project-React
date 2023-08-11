@@ -20,7 +20,6 @@ export const apiSlice = createApi({
         }),
         getSingleStoreProduct: builder.query({
           query: (productId) => {
-              console.log("ProductID: ", productId)
               return {
                   url: `https://dummyjson.com/products/${productId}`,
                   method: 'GET'

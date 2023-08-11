@@ -30,33 +30,10 @@ export default function ProductCard({productObject})
 
     function addProductToCart(product)
     {
-        //fetch(linkToFetch, {
-        //    method: 'PUT',
-        //    headers: {
-        //        'Content-Type': 'application/json',
-        //        'Internship-Auth': `${localStorage.getItem('user')}`
-        //    },
-        //    body:JSON.stringify(
-        //        {
-        //            "products": [
-        //                {
-        //                    "id": product.id,
-        //                    "quantity": 1
-        //                }
-        //            ]
-        //        })
-        //})
         addToCart({
             "id": product.id,
             "quantity": 1
         });
-
-
-        //    .then((res) => res.json())
-        //.then((res) => {
-        //    dispatch(load(res.data.products));
-        //})
-
     }
 
     function handleClick(e)
@@ -66,18 +43,12 @@ export default function ProductCard({productObject})
         addToCartButton.textContent = "Added to cart";
         addToCartButton.classList.add('pressed-add-to-cart-button');
 
-        //const buttonID = itemContainer.getAttribute('data-id');
-        //const buttonTitle = itemContainer.getElementsByTagName('p')[0].innerText;
-        //const newPopup = createAddToCartPopup(`The product with ID: ${buttonID} and title: ${buttonTitle} has been added to your cart successfully`);
-        //document.getElementById('app').appendChild(newPopup);
-
         addProductToCart(productObject);
 
         setTimeout(function (){
             addToCartButton.textContent = "Add to cart";
             addToCartButton.classList.remove('pressed-add-to-cart-button');
             addToCartButton.disabled = false;
-            //newPopup.remove();
         }, 4000);
     }
 

@@ -3,7 +3,6 @@
     height: 30px;
     width: 35%;
     background-color: var(--button-unpressed);
-    /*border: none;*/
 }
 
 .pressed-add-to-cart-button{

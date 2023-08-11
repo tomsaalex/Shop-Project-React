@@ -19,45 +19,10 @@ export default function CartProductCard({ cartId, item, removeCartItem })
     {
         if(item['quantity'] + addedQuantity <= 0)
         {
-            // fetch(`${linkToFetch}?products[]=${item.id}`, {
-            //     method: 'DELETE',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Internship-Auth': `${localStorage.getItem('user')}`
-            //     }
-            // })
-
             removeFromCart(item.id)
-                    //.then(() =>
-                    //{
-                    //    removeCartItem(item.id);
-                    //});
         }
         else{
-
-            //fetch(linkToFetch, {
-            //    method: 'PUT',
-            //    headers: {
-            //        'Content-Type': 'application/json',
-            //        'Internship-Auth': `${localStorage.getItem('user')}`
-            //    },
-            //    body:JSON.stringify(
-            //        {
-            //            "products": [
-            //                {
-            //                    "id": item.id,
-            //                    "quantity": addedQuantity
-            //                }
-            //            ]
-            //        })
-            //})
-                addToCart({ "id": item.id, "quantity": addedQuantity})
-            //.then((res) =>
-            //{
-            //    console.log("Rez", res);
-            //    setQuantity(quantity + addedQuantity);
-            //    return res.json();
-            //}).then((res) => { dispatch(load(res.data.products))});
+            addToCart({ "id": item.id, "quantity": addedQuantity})
         }
     }
 

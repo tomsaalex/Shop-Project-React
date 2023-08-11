@@ -111,17 +111,6 @@ export default function MainBody({filteringCriterion, numberOfProductsToFetch, n
         content = <p>Loading...</p>
     }
 
-/*
-    useEffect(() =>{
-
-        if(productsData != null && addNewItems)
-        {
-            setProducts([...products, ...apiData.products]);
-            setNumberOfProductsSkipped(numberOfProductsSkipped + numberOfProductsToFetch);
-            setAddNewItems(false);
-        }
-    }, [apiData, addNewItems, setProducts, products, setNumberOfProductsSkipped, numberOfProductsSkipped, numberOfProductsToFetch, setAddNewItems])
-*/
     function loadMoreItems()
     {
         setAddNewItems(true);

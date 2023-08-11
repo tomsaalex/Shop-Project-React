@@ -1,6 +1,8 @@
 import {createContext, useContext, useMemo} from "react";
 import {useNavigate} from "react-router";
 import {useLocalStorage} from "./UseLocalStorage";
+import {useDispatch} from "react-redux";
+import {apiSlice} from "../api/apiSlice";
 
 const AuthContext = createContext();
 
@@ -8,6 +10,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [authToken, setToken] = useLocalStorage("user", null);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const login = async(data) => {
         setToken(data);
@@ -16,6 +19,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setToken(null);
+        dispatch(apiSlice.util.resetApiState());
         navigate("/", { replace: true });
     };
 
