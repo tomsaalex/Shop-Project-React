@@ -8,16 +8,50 @@ export const apiSlice = createApi({
     // The cache reducer expects to be added at `state.api` (already default - this is optional)
     reducerPath: 'api',
     // All of our requests will have URLs starting with '/fakeApi'
-    baseQuery: fetchBaseQuery({ baseUrl: `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}` }),
+    baseQuery: fetchBaseQuery({ baseUrl: `` }),
+    tagTypes: ['CartProducts'],
+
     // The "endpoints" represent operations and requests for this server
     endpoints: builder => ({
-        // The `getPosts` endpoint is a "query" operation that returns data
-        getPosts: builder.query({
+        getCartProducts: builder.query({
             // The URL for the request is '/fakeApi/posts'
-            query: () => {return {url: '', method: 'GET', headers: {"Internship-Auth": `${localStorage.getItem("user")}`}}}
+            query: () => {return {url: `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`, method: 'GET', headers: {"Internship-Auth": `${localStorage.getItem("user")}`}}},
+            providesTags: ['CartProducts']
+        }),
+        getSingleStoreProduct: builder.query({
+          query: (productId) => {
+              console.log("ProductID: ", productId)
+              return {
+                  url: `https://dummyjson.com/products/${productId}`,
+                  method: 'GET'
+              }
+          }
+        }),
+        getAllStoreProducts: builder.query({
+            query: () => ({
+                url: 'https://dummyjson.com/products/',
+                method: 'GET'
+            })
+        }),
+        addToCart: builder.mutation({
+            query: newProduct => { return {
+                url: `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`,
+                method: 'PUT',
+                headers: {"Content-Type": 'application/json', "Internship-Auth": `${localStorage.getItem("user")}`},
+                body: {"products": [newProduct]}
+            }},
+            invalidatesTags: ['CartProducts']
+        }),
+        removeFromCart: builder.mutation({
+            query: (productId) => { return {
+                url: `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}?products[]=${productId}`,
+                method: 'DELETE',
+                headers: {"Internship-Auth": `${localStorage.getItem("user")}`}
+            }},
+            invalidatesTags: ['CartProducts']
         })
     })
 })
 
-// Export the auto-generated hook for the `getPosts` query endpoint
-export const { useGetPostsQuery } = apiSlice
+
+export const { useGetCartProductsQuery, useGetSingleStoreProductQuery, useGetAllStoreProductsQuery, useAddToCartMutation, useRemoveFromCartMutation } = apiSlice

@@ -2,12 +2,15 @@ import {Link} from "react-router-dom";
 import {useAuth} from "./AuthProvider";
 import {useDispatch, useSelector} from "react-redux";
 import {load} from "./cartSlice";
+import {useAddToCartMutation} from "../api/apiSlice";
 const cartId = require('../cart_id.json')["cart-id"];
 
 export default function ProductCard({productObject})
 {
     const cart = useSelector(state => state.cart.value);
     const dispatch = useDispatch();
+
+    const [addToCart] = useAddToCartMutation();
 
     const {user} = useAuth();
     const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
@@ -27,26 +30,32 @@ export default function ProductCard({productObject})
 
     function addProductToCart(product)
     {
-        fetch(linkToFetch, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Internship-Auth': `${localStorage.getItem('user')}`
-            },
-            body:JSON.stringify(
-                {
-                    "products": [
-                        {
-                            "id": product.id,
-                            "quantity": 1
-                        }
-                    ]
-                })
-        }).then((res) => res.json())
-        .then((res) => {
-            debugger;
-            dispatch(load(res.data.products));
-        })
+        //fetch(linkToFetch, {
+        //    method: 'PUT',
+        //    headers: {
+        //        'Content-Type': 'application/json',
+        //        'Internship-Auth': `${localStorage.getItem('user')}`
+        //    },
+        //    body:JSON.stringify(
+        //        {
+        //            "products": [
+        //                {
+        //                    "id": product.id,
+        //                    "quantity": 1
+        //                }
+        //            ]
+        //        })
+        //})
+        addToCart({
+            "id": product.id,
+            "quantity": 1
+        });
+
+
+        //    .then((res) => res.json())
+        //.then((res) => {
+        //    dispatch(load(res.data.products));
+        //})
 
     }
 

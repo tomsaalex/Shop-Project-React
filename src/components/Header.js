@@ -5,7 +5,7 @@ import {createContext, useEffect, useState} from "react";
 import CartPanelProductCard from "./CartPanelProductCard";
 import {useDispatch, useSelector} from "react-redux";
 import {load} from "./cartSlice";
-import {useGetPostsQuery} from "../api/apiSlice";
+import {useGetCartProductsQuery} from "../api/apiSlice";
 import CartProductCard from "./CartProductCard";
 const cartId = require('../cart_id.json')["cart-id"];
 
@@ -15,13 +15,14 @@ export default function Header()
     let timerUntilPanelClose;
 
     const cart = useSelector(state => state.cart.value);
+
     const dispatch = useDispatch();
 
     const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
     //const [cartData, setCartData] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
-    const [totalItems, setTotalItems] = useState(0);
+    let totalItems = 0;
 
     /*
     useEffect(() => {
@@ -42,7 +43,7 @@ export default function Header()
         isSuccess,
         isError,
         error
-    } = useGetPostsQuery();
+    } = useGetCartProductsQuery();
 
     let content;
 
@@ -52,7 +53,7 @@ export default function Header()
     }
     else if(isSuccess)
     {
-        console.log(posts);
+        totalItems = posts.totalQuantity;
         content = posts.products.map((product) => <CartPanelProductCard key={product.id} item={product} />);
     }
     else if(isError)

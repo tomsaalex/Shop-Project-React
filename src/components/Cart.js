@@ -6,7 +6,7 @@ import Header from "./Header";
 import {useDispatch, useSelector} from "react-redux";
 import {load} from "./cartSlice";
 
-import { useGetPostsQuery } from "../api/apiSlice";
+import { useGetCartProductsQuery } from "../api/apiSlice";
 
 const cartId = require("../cart_id.json")["cart-id"];
 
@@ -19,7 +19,7 @@ export default function Cart()
 
     const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
     //const [cartData, setCartData] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0);
+    let totalPrice = 0;
 
     /*
     useEffect(() => {
@@ -43,7 +43,7 @@ export default function Cart()
         isSuccess,
         isError,
         error
-    } = useGetPostsQuery();
+    } = useGetCartProductsQuery();
 
     let content;
 
@@ -54,6 +54,7 @@ export default function Cart()
     else if(isSuccess)
     {
         content = posts.products.map((item) => <CartProductCard cartId={cartId} key={item.id} item={item} removeCartItem={removeCartItem}/>);
+        totalPrice = posts.total;
     }
     else if(isError)
     {
