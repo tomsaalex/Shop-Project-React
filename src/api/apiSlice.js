@@ -27,9 +27,9 @@ export const apiSlice = createApi({
               }
           }
         }),
-        getAllStoreProducts: builder.query({
-            query: () => ({
-                url: 'https://dummyjson.com/products/',
+        getRequiredStoreProducts: builder.query({
+            query: (linkToFetch) => ({
+                url: linkToFetch,
                 method: 'GET'
             })
         }),
@@ -54,4 +54,4 @@ export const apiSlice = createApi({
 })
 
 
-export const { useGetCartProductsQuery, useGetSingleStoreProductQuery, useGetAllStoreProductsQuery, useAddToCartMutation, useRemoveFromCartMutation } = apiSlice
+export const { useGetCartProductsQuery, useGetSingleStoreProductQuery, useGetRequiredStoreProductsQuery, useAddToCartMutation, useRemoveFromCartMutation } = apiSlice

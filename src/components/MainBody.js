@@ -2,6 +2,7 @@ import '../css/styles.css'
 import '../css/main-body.css'
 import {useEffect, useState} from "react";
 import ProductCard from "./ProductCard";
+import {useGetAllStoreProductsQuery, useGetRequiredStoreProductsQuery} from "../api/apiSlice";
 
 export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsToSkip) {
     const [lastURL, setLastURL] = useState(""); //TODO: Ask if this is ok or should be avoided.
@@ -67,55 +68,88 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
     return data;
 }
 
-export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems, queryType, searchedText })
+export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems, queryType, searchedText, pageNumber, setPageNumber })
 {
     let linkToFetch;
 
+
     if(queryType === "filter"){
         if(filteringCriterion === "all")
-            linkToFetch = `https://dummyjson.com/products?limit=${numberOfProductsToFetch}&skip=${numberOfProductsSkipped}`;
+            linkToFetch = `https://dummyjson.com/products?limit=${numberOfProductsToFetch}&skip=${(pageNumber - 1) * numberOfProductsToFetch}`;
         else {
-            linkToFetch = `https://dummyjson.com/products/category/${filteringCriterion}?limit=${numberOfProductsToFetch}&skip=${numberOfProductsSkipped}`;
+            linkToFetch = `https://dummyjson.com/products/category/${filteringCriterion}?limit=${numberOfProductsToFetch}&skip=${(pageNumber - 1) * numberOfProductsToFetch}`;
         }
     }
     else if(queryType === "search"){
-        linkToFetch = `https://dummyjson.com/products/search?q=${searchedText}`;
+        linkToFetch = `https://dummyjson.com/products/search?q=${searchedText}&limit=${numberOfProductsToFetch}&skip=${(pageNumber - 1) * numberOfProductsToFetch}`;
     }
 
 
-    const apiData = useAPIData(linkToFetch, "products", filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped);
+    //const apiData = useAPIData(linkToFetch, "products", filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped);
 
+    const {
+        data:productsData,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetRequiredStoreProductsQuery(linkToFetch);
+
+    let content;
+
+    if(isSuccess)
+    {
+        console.log(productsData);
+        if(productsData.products.length === 0)
+            prevPage();
+        content = productsData.products.map(product => (
+            <ProductCard productObject={product} key={product.id}  />
+        ))
+    }
+    if(isLoading)
+    {
+        content = <p>Loading...</p>
+    }
+
+/*
     useEffect(() =>{
 
-        if(apiData != null && addNewItems)
+        if(productsData != null && addNewItems)
         {
             setProducts([...products, ...apiData.products]);
             setNumberOfProductsSkipped(numberOfProductsSkipped + numberOfProductsToFetch);
             setAddNewItems(false);
         }
     }, [apiData, addNewItems, setProducts, products, setNumberOfProductsSkipped, numberOfProductsSkipped, numberOfProductsToFetch, setAddNewItems])
-
+*/
     function loadMoreItems()
     {
         setAddNewItems(true);
     }
 
+    function prevPage()
+    {
+        if(pageNumber > 1)
+            setPageNumber(pageNumber - 1);
+    }
+
+    function nextPage()
+    {
+        setPageNumber(pageNumber + 1)
+    }
+
     return (
         <>
             <div id="products-list">
-                {products.length > 0 ?
-                    products.map(product => (
-                    <ProductCard productObject={product} key={product.id}  />
-                ))
-                :
-                    <p>Loading...</p>
-                }
+                {content}
             </div>
 
             <div className="load-more-container">
-                <button onClick={loadMoreItems} id="load-more-button">
-                    Load More
-                </button>
+                <div className="page-navigation-buttons">
+                    <button onClick={prevPage}>{'<'}</button>
+                    <p>{pageNumber}</p>
+                    <button onClick={nextPage}>{'>'}</button>
+                </div>
                 <img
                     id="products-list-loader"
                     src="../public/images/loading_gif.gif"

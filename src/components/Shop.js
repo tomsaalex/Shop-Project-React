@@ -6,22 +6,21 @@ import "../css/main-body.css"
 
 export default function Shop()
 {
+    const [pageNumber, setPageNumber] = useState(1);
+    const [queryType, setQueryType] = useState('filter');
+    const [addNewItems, setAddNewItems] = useState(true);
+    const [products, setProducts] = useState([]);
+    const [numberOfProductsToFetch, setNumberOfProductsToFetch] = useState(4);
+    const [numberOfProductsSkipped, setNumberOfProductsSkipped] = useState(0);
 
-    // TODO: Ask if lifting all of these states is really necessary
-    let [queryType, setQueryType] = useState('filter');
-    let [addNewItems, setAddNewItems] = useState(true);
-    let [products, setProducts] = useState([]);
-    let [numberOfProductsToFetch, setNumberOfProductsToFetch] = useState(4);
-    let [numberOfProductsSkipped, setNumberOfProductsSkipped] = useState(0);
-
-    let [filteringCriterion, setFilteringCriterion] = useState("all");
-    let [searchedText, setSearchedText] = useState("");
+    const [filteringCriterion, setFilteringCriterion] = useState("all");
+    const [searchedText, setSearchedText] = useState("");
 
     return (
         <>
             <Header/>
-            <ActionBar setFilteringCriterion={setFilteringCriterion} setNumberOfProductsSkipped={setNumberOfProductsSkipped} setProducts={setProducts} addNewItems={addNewItems} setAddNewItems={setAddNewItems} queryType={queryType} setQueryType={setQueryType} setSearchedText={setSearchedText} numberOfProductsToFetch={numberOfProductsToFetch} setNumberOfProductsToFetch={setNumberOfProductsToFetch}/>
-            <MainBody filteringCriterion={filteringCriterion} numberOfProductsToFetch={numberOfProductsToFetch} numberOfProductsSkipped={numberOfProductsSkipped} setNumberOfProductsSkipped={setNumberOfProductsSkipped} products={products} setProducts={setProducts} addNewItems={addNewItems} setAddNewItems={setAddNewItems} queryType={queryType} searchedText={searchedText}/>
+            <ActionBar setFilteringCriterion={setFilteringCriterion} setNumberOfProductsSkipped={setNumberOfProductsSkipped} setProducts={setProducts} addNewItems={addNewItems} setAddNewItems={setAddNewItems} queryType={queryType} setQueryType={setQueryType} setSearchedText={setSearchedText} numberOfProductsToFetch={numberOfProductsToFetch} setNumberOfProductsToFetch={setNumberOfProductsToFetch} setPageNumber={setPageNumber}/>
+            <MainBody filteringCriterion={filteringCriterion} numberOfProductsToFetch={numberOfProductsToFetch} numberOfProductsSkipped={numberOfProductsSkipped} setNumberOfProductsSkipped={setNumberOfProductsSkipped} products={products} setProducts={setProducts} addNewItems={addNewItems} setAddNewItems={setAddNewItems} queryType={queryType} searchedText={searchedText} pageNumber={pageNumber} setPageNumber={setPageNumber}/>
         </>
     )
 }

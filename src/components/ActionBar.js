@@ -3,7 +3,7 @@ import {useAPIData} from "./MainBody";
 import {useState} from "react";
 import {debounce} from "../utils/utils";
 
-export default function ActionBar({setFilteringCriterion, setNumberOfProductsSkipped, setProducts, addNewItems, setAddNewItems, queryType, setQueryType, setSearchedText, numberOfProductsToFetch, setNumberOfProductsToFetch }){
+export default function ActionBar({setFilteringCriterion, setNumberOfProductsSkipped, setProducts, addNewItems, setAddNewItems, queryType, setQueryType, setSearchedText, numberOfProductsToFetch, setNumberOfProductsToFetch, setPageNumber }){
     let [productCategories, setProductCategories] = useState(['all']);
 
     let apiData = useAPIData('https://dummyjson.com/products/categories');
@@ -17,6 +17,7 @@ export default function ActionBar({setFilteringCriterion, setNumberOfProductsSki
         setFilteringCriterion(e.target.value);
         setNumberOfProductsSkipped(0);
         setProducts([]);
+        setPageNumber(1);
         setAddNewItems(true);
     }
 
