@@ -39,7 +39,7 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
                 }
             }
             fetch(url)
-                .then(response => response.json())
+                .then(response => {console.log(response); response.json()})
                 .then(json => {
                     if (!ignore) {
                         if(typeOfData === "products") {

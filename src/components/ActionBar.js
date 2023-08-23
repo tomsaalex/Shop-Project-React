@@ -6,7 +6,7 @@ import {debounce} from "../utils/utils";
 export default function ActionBar({setFilteringCriterion, setNumberOfProductsSkipped, setProducts, addNewItems, setAddNewItems, queryType, setQueryType, setSearchedText, numberOfProductsToFetch, setNumberOfProductsToFetch, setPageNumber }){
     let [productCategories, setProductCategories] = useState(['all']);
 
-    let apiData = useAPIData('https://dummyjson.com/products/categories');
+    let apiData = useAPIData('http://localhost:3001/products/categories');
     if(apiData !== null && productCategories.length === 1) {
         setProductCategories([...productCategories, ...apiData]);
     }
