@@ -39,7 +39,7 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
                 }
             }
             fetch(url)
-                .then(response => {console.log(response); response.json()})
+                .then(response =>  response.json())
                 .then(json => {
                     if (!ignore) {
                         if(typeOfData === "products") {
@@ -99,7 +99,7 @@ export default function MainBody({filteringCriterion, numberOfProductsToFetch, n
 
     if(isSuccess)
     {
-        console.log(productsData);
+        //console.log(productsData);
         if(productsData.products.length === 0)
             prevPage();
         content = productsData.products.map(product => (

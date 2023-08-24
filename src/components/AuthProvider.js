@@ -8,25 +8,30 @@ const AuthContext = createContext();
 
 
 export const AuthProvider = ({ children }) => {
-    const [authToken, setToken] = useLocalStorage("user", null);
+    const [userId, setUserId] = useLocalStorage("user_id", null);
+    const [authToken, setToken] = useLocalStorage("user_token", null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const login = async(data) => {
-        setToken(data);
+    const login = async(userToken, userId) => {
+        console.log("Setting ID to: " + userId);
+        setToken(userToken);
+        setUserId(userId);
         navigate("/account");
     };
 
     const logout = () => {
+        console.log("Logging out");
         setToken(null);
+        setUserId(null);
         dispatch(apiSlice.util.resetApiState());
         navigate("/", { replace: true });
     };
 
     const value = useMemo(
         () => ({
-            user: authToken, login, logout
-        }), [authToken]
+            user: userId, authToken, login, logout
+        }), [userId, authToken]
 
     );
 

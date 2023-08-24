@@ -8,7 +8,7 @@ export default function Login()
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const { user, login, logout } = useAuth();
+    const { user: user, authToken: authToken, login, logout } = useAuth();
 
     function onLogin(e) {
         e.preventDefault();
@@ -17,13 +17,13 @@ export default function Login()
             password: password
         }
 
-        fetch("http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/login", {
+        fetch("http://localhost:3001/users/login", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(loginData)
         })
             .then(res => {return res.json()})
-            .then(res => { res.token ? login(res.token) : alert('The login data is invalid')});
+            .then(res => { res.token && res.userId ? login(res.token, res.userId) : alert('The login data is invalid')});
 
         return false;
     }

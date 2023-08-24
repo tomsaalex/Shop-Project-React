@@ -11,18 +11,20 @@ const cartId = require('../cart_id.json')["cart-id"];
 
 export default function Header()
 {
-    let { user, login, logout } = useAuth();
+    let { user: user, authToken: authToken, login, logout } = useAuth();
+    console.log("Use auth: " + user + " " + authToken);
     let timerUntilPanelClose;
 
     const cart = useSelector(state => state.cart.value);
 
     const dispatch = useDispatch();
-
-    const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
     //const [cartData, setCartData] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
     let totalItems = 0;
+
+
+    console.log(user);
 
     const {
         data: posts,
@@ -30,7 +32,7 @@ export default function Header()
         isSuccess,
         isError,
         error
-    } = useGetCartProductsQuery();
+    } = useGetCartProductsQuery({userId: user, userToken: authToken});
 
     let content;
 

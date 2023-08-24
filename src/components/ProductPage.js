@@ -7,18 +7,18 @@ import {useAuth} from "./AuthProvider";
 import {useDispatch, useSelector} from "react-redux";
 import {load} from "./cartSlice";
 import {useAddToCartMutation, useGetSingleStoreProductQuery} from "../api/apiSlice";
-let cartId = require('../cart_id.json')["cart-id"];
 
-export default function ProductPage(){
+export default function ProductPage() {
 
     const cart = useSelector(state => state.cart.value);
     const dispatch = useDispatch();
+    let {userId, userToken} = useAuth();
 
     const [addToCart] = useAddToCartMutation();
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    const { product_id } = useParams();
+    const {product_id} = useParams();
     const {
         data: element,
         isLoading,
@@ -27,41 +27,38 @@ export default function ProductPage(){
         error
     } = useGetSingleStoreProductQuery(product_id);
 
-    let {user} = useAuth();
-
-    let linkToFetchProduct = `https://dummyjson.com/products/${product_id}`;
-    let linkToAddToCart = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
-
-
     const productPriceWithDiscount = element && element.price * (100 - element.discountPercentage) / 100;
 
     let thumbnailsList;
-    if(element && element.thumbnail && element.images)
+    if (element && element.thumbnail && element.images)
         thumbnailsList = [element.thumbnail, ...element.images];
 
-    function handleCarouselGoBack()
-    {
+    function handleCarouselGoBack() {
         let newImageIndex = currentImageIndex - 1;
-        if(newImageIndex < 0)
+        if (newImageIndex < 0)
             newImageIndex = thumbnailsList.length - 1;
         setCurrentImageIndex(newImageIndex);
     }
 
-    function handleCarouselGoForward()
-    {
+    function handleCarouselGoForward() {
         let newImageIndex = (currentImageIndex + 1) % thumbnailsList.length;
         setCurrentImageIndex(newImageIndex);
     }
 
-    function addProductToCart()
-    {
-        if(!element)
+    function addProductToCart() {
+        if (!element)
             return;
 
-        addToCart({
-            "id": element.id,
-            "quantity": 1
-        })
+        addToCart(
+            {
+                userId,
+                userToken,
+                newProduct: {
+                    "id": element.id,
+                    "quantity": 1
+                }
+            }
+        );
     }
 
     return (
@@ -70,7 +67,8 @@ export default function ProductPage(){
             <div className="item-page-wrapper">
                 <div className="item-page">
                     <div className="item-gallery">
-                        <img className="gallery-image" alt="thumbnail" src={element && thumbnailsList[currentImageIndex]} />
+                        <img className="gallery-image" alt="thumbnail"
+                             src={element && thumbnailsList[currentImageIndex]}/>
                         <div className="nav-arrows">
                             <button onClick={handleCarouselGoBack} className="navigation-button">
                                 {"<"}
@@ -89,7 +87,9 @@ export default function ProductPage(){
                             <p>${element && productPriceWithDiscount.toFixed(2)}</p>
                             <p><s>${element && element.price.toFixed(2)}</s></p>
                         </div>
-                        <button disabled={!user} onClick={addProductToCart} className="product-add-to-cart-button">Add To Cart</button>
+                        <button disabled={!userId} onClick={addProductToCart} className="product-add-to-cart-button">Add
+                            To Cart
+                        </button>
                     </div>
                 </div>
             </div>

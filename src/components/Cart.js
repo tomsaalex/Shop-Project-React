@@ -6,18 +6,17 @@ import Header from "./Header";
 import {useDispatch, useSelector} from "react-redux";
 import {load} from "./cartSlice";
 
+
 import { useGetCartProductsQuery } from "../api/apiSlice";
+import {useAuth} from "./AuthProvider";
 
 const cartId = require("../cart_id.json")["cart-id"];
 
 export default function Cart()
 {
-
-
     const cart = useSelector(state => state.cart.value);
     const dispatch = useDispatch();
-
-    const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
+    const {user: user, authToken: authToken} = useAuth();
     let totalPrice = 0;
 
     function removeCartItem(id)
@@ -26,13 +25,14 @@ export default function Cart()
         dispatch(load(newCartData));
     }
 
+
     const {
         data: posts,
         isLoading,
         isSuccess,
         isError,
         error
-    } = useGetCartProductsQuery();
+    } = useGetCartProductsQuery({userId: user, userToken: authToken});
 
     let content;
 

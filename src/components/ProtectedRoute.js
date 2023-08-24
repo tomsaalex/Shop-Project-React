@@ -2,7 +2,8 @@ import {useAuth} from "./AuthProvider";
 import {Navigate} from "react-router";
 
 export const ProtectedRoute = ({ children }) => {
-    const { user } = useAuth();
+    const { user, authToken } = useAuth();
+
     if(!user)
     {
         return <Navigate to="/login" />
@@ -11,7 +12,7 @@ export const ProtectedRoute = ({ children }) => {
 };
 
 export const UnloggedRoute = ({ children }) => {
-    const { user } = useAuth();
+    const { user, authToken } = useAuth();
     if(user)
     {
         return <Navigate to="/"/>

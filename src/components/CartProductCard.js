@@ -4,25 +4,25 @@ import "../css/product-card.css"
 import {useDispatch, useSelector} from "react-redux";
 import {load} from "./cartSlice";
 import {useAddToCartMutation, useRemoveFromCartMutation} from "../api/apiSlice";
+import {useAuth} from "./AuthProvider";
 
 export default function CartProductCard({ cartId, item, removeCartItem })
 {
+    const {user: user, authToken: authToken} = useAuth();
     const cart = useSelector(state => state.cart.value);
     const dispatch = useDispatch();
     const [addToCart, { isLoading }] = useAddToCartMutation();
     const [removeFromCart] = useRemoveFromCartMutation();
-
-    const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
     let addedQuantity = 0;
 
     function updateAPIQuantity()
     {
         if(item['quantity'] + addedQuantity <= 0)
         {
-            removeFromCart(item.id)
+            removeFromCart({userId: user, userToken: authToken, itemId:item.id})
         }
         else{
-            addToCart({ "id": item.id, "quantity": addedQuantity})
+            addToCart({userId: user, userToken: authToken, newProduct: { "id": item.id, "quantity": addedQuantity}})
         }
     }
 

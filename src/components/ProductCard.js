@@ -10,10 +10,9 @@ export default function ProductCard({productObject})
     const cart = useSelector(state => state.cart.value);
     const dispatch = useDispatch();
 
-    const [addToCart] = useAddToCartMutation();
+    const {user: user, authToken: authToken} = useAuth();
 
-    const {user} = useAuth();
-    const linkToFetch = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`;
+    const [addToCart] = useAddToCartMutation();
     const productPriceWithDiscount = productObject.price * (100 - productObject.discountPercentage) / 100;
 
     let imageLinks = [productObject.thumbnail, ...productObject["images"]];
@@ -30,10 +29,10 @@ export default function ProductCard({productObject})
 
     function addProductToCart(product)
     {
-        addToCart({
+        addToCart({userId: user, userToken: authToken, newProduct:{
             "id": product.id,
             "quantity": 1
-        });
+        }});
     }
 
     function handleClick(e)
