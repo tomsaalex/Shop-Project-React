@@ -68,24 +68,15 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
     return data;
 }
 
-export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems, queryType, searchedText, pageNumber, setPageNumber })
+export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems, searchedText, pageNumber, setPageNumber })
 {
-    let linkToFetch;
+    let linkToFetch = `http://localhost:3001/products?limit=${numberOfProductsToFetch}&skip=${(pageNumber - 1) * numberOfProductsToFetch}`;
 
+    if(filteringCriterion && filteringCriterion !== "all")
+        linkToFetch += `&category=${filteringCriterion}`;
 
-    if(queryType === "filter"){
-        if(filteringCriterion === "all")
-            linkToFetch = `https://dummyjson.com/products?limit=${numberOfProductsToFetch}&skip=${(pageNumber - 1) * numberOfProductsToFetch}`;
-        else {
-            linkToFetch = `https://dummyjson.com/products/category/${filteringCriterion}?limit=${numberOfProductsToFetch}&skip=${(pageNumber - 1) * numberOfProductsToFetch}`;
-        }
-    }
-    else if(queryType === "search"){
-        linkToFetch = `https://dummyjson.com/products/search?q=${searchedText}&limit=${numberOfProductsToFetch}&skip=${(pageNumber - 1) * numberOfProductsToFetch}`;
-    }
-
-
-    //const apiData = useAPIData(linkToFetch, "products", filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped);
+    if(searchedText)
+        linkToFetch += `&q=${searchedText}`;
 
     const {
         data:productsData,
@@ -102,9 +93,9 @@ export default function MainBody({filteringCriterion, numberOfProductsToFetch, n
         //console.log(productsData);
         if(productsData.products.length === 0)
             prevPage();
-        content = productsData.products.map(product => (
-            <ProductCard productObject={product} key={product.id}  />
-        ))
+        content = productsData.products.map(product => { return (
+            <ProductCard productObject={product} key={product._id}  />
+        )})
     }
     if(isLoading)
     {

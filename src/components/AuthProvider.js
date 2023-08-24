@@ -14,14 +14,12 @@ export const AuthProvider = ({ children }) => {
     const dispatch = useDispatch();
 
     const login = async(userToken, userId) => {
-        console.log("Setting ID to: " + userId);
         setToken(userToken);
         setUserId(userId);
         navigate("/account");
     };
 
     const logout = () => {
-        console.log("Logging out");
         setToken(null);
         setUserId(null);
         dispatch(apiSlice.util.resetApiState());

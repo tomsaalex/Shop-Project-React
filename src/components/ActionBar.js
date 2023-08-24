@@ -7,8 +7,7 @@ export default function ActionBar({setFilteringCriterion, setNumberOfProductsSki
     let [productCategories, setProductCategories] = useState(['all']);
 
     let apiData = useAPIData('http://localhost:3001/products/categories');
-    console.log("categories");
-    console.log(apiData);
+
     if(apiData !== null && productCategories.length === 1) {
         setProductCategories([...productCategories, ...apiData]);
     }

@@ -42,7 +42,7 @@ export default function Cart()
     }
     else if(isSuccess)
     {
-        content = posts.products.map((item) => <CartProductCard cartId={cartId} key={item.id} item={item} removeCartItem={removeCartItem}/>);
+        content = posts.products.map((item) => <CartProductCard cartId={cartId} key={item._id} item={item} removeCartItem={removeCartItem}/>);
         totalPrice = posts.total;
     }
     else if(isError)

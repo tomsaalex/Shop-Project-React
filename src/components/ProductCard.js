@@ -30,7 +30,7 @@ export default function ProductCard({productObject})
     function addProductToCart(product)
     {
         addToCart({userId: user, userToken: authToken, newProduct:{
-            "id": product.id,
+            "number": product.number,
             "quantity": 1
         }});
     }

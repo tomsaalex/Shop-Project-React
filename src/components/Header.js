@@ -12,7 +12,6 @@ const cartId = require('../cart_id.json')["cart-id"];
 export default function Header()
 {
     let { user: user, authToken: authToken, login, logout } = useAuth();
-    console.log("Use auth: " + user + " " + authToken);
     let timerUntilPanelClose;
 
     const cart = useSelector(state => state.cart.value);
@@ -21,18 +20,15 @@ export default function Header()
     //const [cartData, setCartData] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
+    console.log(Boolean(user));
     let totalItems = 0;
-
-
-    console.log(user);
-
-    const {
-        data: posts,
-        isLoading,
-        isSuccess,
-        isError,
-        error
-    } = useGetCartProductsQuery({userId: user, userToken: authToken});
+        const {
+            data: posts,
+            isLoading,
+            isSuccess,
+            isError,
+            error
+        } = useGetCartProductsQuery({userId: user, userToken: authToken}, { skip: !Boolean(user) });
 
     let content;
 
@@ -43,7 +39,7 @@ export default function Header()
     else if(isSuccess)
     {
         totalItems = posts.totalQuantity;
-        content = posts.products.map((product) => <CartPanelProductCard key={product.id} item={product} />);
+        content = posts.products.map((product) => <CartPanelProductCard key={product._id} item={product} />);
     }
     else if(isError)
     {

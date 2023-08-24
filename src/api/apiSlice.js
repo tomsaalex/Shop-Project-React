@@ -13,13 +13,13 @@ export const apiSlice = createApi({
     endpoints: builder => ({
         getCartProducts: builder.query({
             // The URL for the request is '/fakeApi/posts'
-            query: (arg) => {const{userId, userToken} = arg; return {url: `http://localhost:3001/cart/${userId}`, method: 'GET', headers: {"Internship-Auth": userToken}}},
+            query: (arg) => {const{userId, userToken} = arg; if(!userId) return; return {url: `http://localhost:3001/cart/${userId}`, method: 'GET', headers: {"Internship-Auth": userToken}}},
             providesTags: ['CartProducts']
         }),
         getSingleStoreProduct: builder.query({
           query: (productId) => {
               return {
-                  url: `https://dummyjson.com/products/${productId}`,
+                  url: `http://localhost/products/${productId}`,
                   method: 'GET'
               }
           }
@@ -33,6 +33,7 @@ export const apiSlice = createApi({
         addToCart: builder.mutation({
             query: (args) => {
                 const {userId, userToken, newProduct} = args;
+                console.log(newProduct);
                 return {
                 url: `http://localhost:3001/cart/${userId}`,
                 method: 'PUT',

@@ -19,10 +19,11 @@ export default function CartProductCard({ cartId, item, removeCartItem })
     {
         if(item['quantity'] + addedQuantity <= 0)
         {
-            removeFromCart({userId: user, userToken: authToken, itemId:item.id})
+            console.log(item.number);
+            removeFromCart({userId: user, userToken: authToken, productId:item.number})
         }
         else{
-            addToCart({userId: user, userToken: authToken, newProduct: { "id": item.id, "quantity": addedQuantity}})
+            addToCart({userId: user, userToken: authToken, newProduct: { "number": item.number, "quantity": addedQuantity}})
         }
     }
 
