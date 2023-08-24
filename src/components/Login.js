@@ -23,7 +23,7 @@ export default function Login()
             body: JSON.stringify(loginData)
         })
             .then(res => {return res.json()})
-            .then(res => { res.token && res.userId ? login(res.token, res.userId) : alert('The login data is invalid')});
+            .then(res => { console.log(res);res.token && res.userId ? login(res.token, res.userId) : alert('The login data is invalid')});
 
         return false;
     }

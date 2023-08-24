@@ -3,7 +3,7 @@ import {useAPIData} from "./MainBody";
 import {useState} from "react";
 import {debounce} from "../utils/utils";
 
-export default function ActionBar({setFilteringCriterion, setNumberOfProductsSkipped, setProducts, addNewItems, setAddNewItems, queryType, setQueryType, setSearchedText, numberOfProductsToFetch, setNumberOfProductsToFetch, setPageNumber }){
+export default function ActionBar({setFilteringCriterion, setNumberOfProductsSkipped, setProducts, addNewItems, setAddNewItems, setSearchedText, numberOfProductsToFetch, setNumberOfProductsToFetch, setPageNumber }){
     let [productCategories, setProductCategories] = useState(['all']);
 
     let apiData = useAPIData('http://localhost:3001/products/categories');
@@ -13,8 +13,7 @@ export default function ActionBar({setFilteringCriterion, setNumberOfProductsSki
     }
 
     function onCategoryChange(e){
-        if(queryType !== "filter")
-            return;
+
         setFilteringCriterion(e.target.value);
         setNumberOfProductsSkipped(0);
         setProducts([]);
@@ -23,8 +22,6 @@ export default function ActionBar({setFilteringCriterion, setNumberOfProductsSki
     }
 
     const onSearchTextChangeDebounce = debounce((e) => {
-        if(queryType !== "search")
-            return;
         setSearchedText(e.target.value);
         setNumberOfProductsSkipped(0);
         setProducts([]);
@@ -43,12 +40,6 @@ export default function ActionBar({setFilteringCriterion, setNumberOfProductsSki
     }
 
     return (<div id="action-bar">
-        <label>Query type
-            <select onChange={(e) => setQueryType(e.target.value)}>
-                <option value="filter">Filter</option>
-                <option value="search">Search</option>
-            </select>
-        </label>
         <label>Select a category<select onChange={onCategoryChange} id="list-of-categories">
             {productCategories.length > 0 ?
                 productCategories.map(productCategory => <option key={productCategory}>{productCategory}</option>)
