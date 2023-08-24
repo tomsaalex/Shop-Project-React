@@ -56,7 +56,7 @@ export default function ProductCard({productObject})
                 <div className="thumbnail-container">
                     <img className="item-thumbnail" src={productObject.thumbnail} alt="thumbnail" loading="lazy" />
                 </div>
-                <Link to={`/shop/${productObject.id}`}><p className="item-title">{productObject.title}</p></Link>
+                <Link to={`/shop/${productObject.number}`}><p className="item-title">{productObject.title}</p></Link>
                 <p className="item-description">{productObject.description}</p>
                 <div className="item-rating">Rating:
                     <div className="star-rating" style={{"--rating": productObject.rating}}></div> {productObject.rating}/5.00

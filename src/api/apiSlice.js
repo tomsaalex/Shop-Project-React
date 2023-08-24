@@ -19,7 +19,7 @@ export const apiSlice = createApi({
         getSingleStoreProduct: builder.query({
           query: (productId) => {
               return {
-                  url: `http://localhost/products/${productId}`,
+                  url: `http://localhost:3001/products/${productId}`,
                   method: 'GET'
               }
           }

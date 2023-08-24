@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard";
 import {useGetAllStoreProductsQuery, useGetRequiredStoreProductsQuery} from "../api/apiSlice";
 
 export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsToSkip) {
-    const [lastURL, setLastURL] = useState(""); //TODO: Ask if this is ok or should be avoided.
+    const [lastURL, setLastURL] = useState("");
     const [data, setData] = useState(null);
 
     if(url !== lastURL)
@@ -70,7 +70,7 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
 
 export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems, searchedText, pageNumber, setPageNumber })
 {
-    let linkToFetch = `http://localhost:3001/products?limit=${numberOfProductsToFetch}&skip=${(pageNumber - 1) * numberOfProductsToFetch}`;
+    let linkToFetch = `http://188.24.76.55:3001/products?limit=${numberOfProductsToFetch}&skip=${(pageNumber - 1) * numberOfProductsToFetch}`;
 
     if(filteringCriterion && filteringCriterion !== "all")
         linkToFetch += `&category=${filteringCriterion}`;

@@ -19,6 +19,7 @@ export default function ProductPage() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const {product_id} = useParams();
+    console.log(product_id);
     const {
         data: element,
         isLoading,

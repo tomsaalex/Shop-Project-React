@@ -17,7 +17,7 @@ export default function Login()
             password: password
         }
 
-        fetch("http://localhost:3001/users/login", {
+        fetch("http://188.24.76.55:3001/users/login", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(loginData)
