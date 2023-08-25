@@ -70,7 +70,7 @@ export function useAPIData(url, typeOfData, filterCategory, pageSize, numItemsTo
 
 export default function MainBody({filteringCriterion, numberOfProductsToFetch, numberOfProductsSkipped, setNumberOfProductsSkipped, products, setProducts, addNewItems, setAddNewItems, searchedText, pageNumber, setPageNumber })
 {
-    let linkToFetch = `http://188.24.76.55:3001/products?limit=${numberOfProductsToFetch}&skip=${(pageNumber - 1) * numberOfProductsToFetch}`;
+    let linkToFetch = `http://localhost:3001/products?limit=${numberOfProductsToFetch}&skip=${(pageNumber - 1) * numberOfProductsToFetch}`;
 
     if(filteringCriterion && filteringCriterion !== "all")
         linkToFetch += `&category=${filteringCriterion}`;

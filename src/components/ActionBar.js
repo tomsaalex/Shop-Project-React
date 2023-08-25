@@ -6,7 +6,7 @@ import {debounce} from "../utils/utils";
 export default function ActionBar({setFilteringCriterion, setNumberOfProductsSkipped, setProducts, addNewItems, setAddNewItems, setSearchedText, numberOfProductsToFetch, setNumberOfProductsToFetch, setPageNumber }){
     let [productCategories, setProductCategories] = useState(['all']);
 
-    let apiData = useAPIData('http://188.24.76.55:3001/products/categories');
+    let apiData = useAPIData('http://localhost:3001/products/categories');
 
     if(apiData !== null && productCategories.length === 1) {
         setProductCategories([...productCategories, ...apiData]);
