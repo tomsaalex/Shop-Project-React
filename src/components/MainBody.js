@@ -90,7 +90,6 @@ export default function MainBody({filteringCriterion, numberOfProductsToFetch, n
 
     if(isSuccess)
     {
-        //console.log(productsData);
         if(productsData.products.length === 0)
             prevPage();
         content = productsData.products.map(product => { return (

@@ -1,0 +1,10 @@
+.object-card{
+    background-color: #55c2da;
+    display: flex;
+    justify-content: space-around;
+}
+
+.object-card p{
+    display: inline;
+
+}

@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {load} from "./cartSlice";
 import {useGetCartProductsQuery} from "../api/apiSlice";
 import CartProductCard from "./CartProductCard";
-const cartId = require('../cart_id.json')["cart-id"];
 
 export default function Header()
 {
@@ -20,7 +19,6 @@ export default function Header()
     //const [cartData, setCartData] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
-    console.log(Boolean(user));
     let totalItems = 0;
         const {
             data: posts,

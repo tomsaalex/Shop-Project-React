@@ -33,7 +33,6 @@ export const apiSlice = createApi({
         addToCart: builder.mutation({
             query: (args) => {
                 const {userId, userToken, newProduct} = args;
-                console.log(newProduct);
                 return {
                 url: `http://localhost:3001/cart/${userId}`,
                 method: 'PUT',

@@ -19,7 +19,6 @@ export default function CartProductCard({ cartId, item, removeCartItem })
     {
         if(item['quantity'] + addedQuantity <= 0)
         {
-            console.log(item.number);
             removeFromCart({userId: user, userToken: authToken, productId:item.number})
         }
         else{

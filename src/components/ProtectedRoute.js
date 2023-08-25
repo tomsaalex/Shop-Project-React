@@ -1,8 +1,9 @@
 import {useAuth} from "./AuthProvider";
-import {Navigate} from "react-router";
+import {Navigate, useNavigate} from "react-router";
 
 export const ProtectedRoute = ({ children }) => {
     const { user, authToken } = useAuth();
+    const navigate = useNavigate();
 
     if(!user)
     {

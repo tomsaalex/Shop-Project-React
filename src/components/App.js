@@ -10,6 +10,9 @@ import Account from "./Account";
 import store from './store'
 import {Provider} from "react-redux";
 import {ProtectedRoute, UnloggedRoute} from "./ProtectedRoute";
+import Checkout from "./Checkout";
+import OrdersPage from "./OrdersPage";
+import SingleOrderPage from "./SingleOrderPage";
 
 export default function App() {
 
@@ -23,8 +26,11 @@ export default function App() {
                             <Route path="/login" element={<UnloggedRoute><Login/></UnloggedRoute>}/>
                             <Route path="/account" element={<ProtectedRoute> <Account/></ProtectedRoute> }/>
                             <Route path="/cart" element={<ProtectedRoute> <Cart/></ProtectedRoute>}/>
+                            <Route path="/orders" element={<ProtectedRoute> <OrdersPage/> </ProtectedRoute>}/>
+                            <Route path="/checkout" element={<ProtectedRoute> <Checkout/></ProtectedRoute>}/>
                             <Route path="/shop" element={<Shop/>}/>
                             <Route path="/shop/:product_id" element={<ProductPage/>}/>
+                            <Route path="/orders/:order_id" element={<ProtectedRoute> <SingleOrderPage/> </ProtectedRoute>}/>
                         </Routes>
                 </AuthProvider>
             </Provider>
