@@ -4,6 +4,8 @@ import {useAuth} from "./AuthProvider";
 import {useState} from "react";
 import OrderCard from "./OrderCard";
 
+import "../css/orders-page.css"
+
 
 export default function OrdersPage() {
 
@@ -29,15 +31,27 @@ export default function OrdersPage() {
             <Header/>
             <h1>Orders Page</h1>
             <section id="orders-section">
-                {
-                    orders.length > 0 ?
-                    orders.map(order => {
-                        return (
-                            <OrderCard orderObject={order} key={order._id}/>
-                        )
-                    }) :
-                    <p>No orders to display</p>
-                }
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date ordered</th>
+                            <th>Order status</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            orders.length > 0 ?
+                            orders.map(order => {
+                                return (
+                                    <OrderCard orderObject={order} key={order._id}/>
+                                )
+                            }) :
+                                <tr><td>No orders to display</td></tr>
+                        }
+                    </tbody>
+                </table>
             </section>
         </>
     )

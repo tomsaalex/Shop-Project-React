@@ -29,6 +29,7 @@ export default function App() {
                             <Route path="/orders" element={<ProtectedRoute> <OrdersPage/> </ProtectedRoute>}/>
                             <Route path="/checkout" element={<ProtectedRoute> <Checkout/></ProtectedRoute>}/>
                             <Route path="/shop" element={<Shop/>}/>
+                            <Route path="/orders" element={<ProtectedRoute> <Shop/> </ProtectedRoute>}/>
                             <Route path="/shop/:product_id" element={<ProductPage/>}/>
                             <Route path="/orders/:order_id" element={<ProtectedRoute> <SingleOrderPage/> </ProtectedRoute>}/>
                         </Routes>

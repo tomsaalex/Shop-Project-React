@@ -9,15 +9,16 @@ export default function OrderCard({orderObject}) {
     const {user, authToken} = useAuth();
 
 
-
+    let parsedDateString = orderObject && new Date(orderObject._orderDate).toLocaleString();
 
     return (
         <>
-            <div className="object-card">
-                <Link to={`${orderObject._id}`}> <p>{orderObject && orderObject._id}</p></Link>
-                <p>{orderObject && orderObject._orderDate}</p>
-                <p>{orderObject && orderObject._orderState}</p>
-            </div>
+            <tr className="object-card">
+                <td><Link to={`${orderObject._id}`}>{orderObject && orderObject._id}</Link></td>
+                <td>{orderObject && parsedDateString}</td>
+                <td>{orderObject && orderObject._orderState}</td>
+                <td>${orderObject && orderObject._productsCart._total}</td>
+            </tr>
         </>
     )
 }
