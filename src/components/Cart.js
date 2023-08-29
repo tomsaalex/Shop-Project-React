@@ -38,7 +38,7 @@ export default function Cart() {
     if (isLoading) {
         content = <p>Loading...</p>
     } else if (isSuccess) {
-        content = posts.products.map((item) => <CartProductCard cartId={cartId} key={item._id} item={item}
+        content = posts.products.map((item) => <CartProductCard cartId={cartId} key={item.number} item={item}
                                                                 removeCartItem={removeCartItem}/>);
         totalPrice = posts.total;
     } else if (isError) {

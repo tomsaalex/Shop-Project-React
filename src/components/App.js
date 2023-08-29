@@ -13,6 +13,7 @@ import {ProtectedRoute, UnloggedRoute} from "./ProtectedRoute";
 import Checkout from "./Checkout";
 import OrdersPage from "./OrdersPage";
 import SingleOrderPage from "./SingleOrderPage";
+import Register from "./Register";
 
 export default function App() {
 
@@ -24,6 +25,7 @@ export default function App() {
                         <Routes>
                             <Route path="/" element={<Homepage/>} />
                             <Route path="/login" element={<UnloggedRoute><Login/></UnloggedRoute>}/>
+                            <Route path="/register" element={<UnloggedRoute><Register/></UnloggedRoute>}/>
                             <Route path="/account" element={<ProtectedRoute> <Account/></ProtectedRoute> }/>
                             <Route path="/cart" element={<ProtectedRoute> <Cart/></ProtectedRoute>}/>
                             <Route path="/orders" element={<ProtectedRoute> <OrdersPage/> </ProtectedRoute>}/>

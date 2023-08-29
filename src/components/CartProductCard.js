@@ -22,7 +22,7 @@ export default function CartProductCard({ cartId, item, removeCartItem })
             removeFromCart({userId: user, userToken: authToken, productId:item.number})
         }
         else{
-            addToCart({userId: user, userToken: authToken, newProduct: { "number": item.number, "quantity": addedQuantity}})
+            addToCart({userId: user, userToken: authToken, newProduct: { "id": item.number, "quantity": addedQuantity}})
         }
     }
 

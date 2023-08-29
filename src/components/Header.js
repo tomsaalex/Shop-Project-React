@@ -37,7 +37,7 @@ export default function Header()
     else if(isSuccess)
     {
         totalItems = posts.totalQuantity;
-        content = posts.products.map((product) => <CartPanelProductCard key={product._id} item={product} />);
+        content = posts.products.map((product) => <CartPanelProductCard key={product.number} item={product} />);
     }
     else if(isError)
     {
@@ -70,7 +70,7 @@ export default function Header()
                     <li><Link to="/cart">Cart</Link></li>
                     <li><Link to="/shop">Shop</Link></li>
                     <li><Link to="/account">Account</Link></li>
-                    {user ? <li onClick={logout}>Logout</li> : <li><Link to="/login">Login</Link></li>}
+                    {user ? <li onClick={logout}>Logout</li> : <li><Link to="/register">Register</Link>/<Link to="/login">Login</Link></li>}
                 </ul>
             </nav>
             <div className="cart-icon-bar">
