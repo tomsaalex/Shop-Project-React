@@ -35,13 +35,13 @@ export default function Checkout() {
             },
             body: JSON.stringify(orderData)
         }).then(res => {
-            console.log("Order placed successfully");
+            alert("Order placed successfully");
 
             setTimeout(() => {
                 navigate('/shop');
             }, 3000);
         }).catch(err => {
-            console.log("Error while placing command: " + err);
+            alert("Error while placing order: " + err);
         });
     }
 

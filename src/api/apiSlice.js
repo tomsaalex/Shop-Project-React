@@ -50,7 +50,6 @@ export const apiSlice = createApi({
         addReviewToProduct: builder.mutation({
             query: (args) => {
                 const {user, authToken, productId, review} = args;
-                console.log(user, authToken, productId, review);
                 return {
                     url: `http://localhost:3001/reviews/${user}/${productId}`,
                     method: 'POST',
@@ -60,10 +59,21 @@ export const apiSlice = createApi({
             },
             invalidatesTags: ['ProductReviews']
         }),
+        removeReviewFromProduct: builder.mutation({
+            query: (args) => {
+                const {userId, userToken, reviewId} = args;
+                console.log(userId, userToken, reviewId);
+                return {
+                    url: `http://localhost:3001/reviews/${userId}/${reviewId}`,
+                    method: 'DELETE',
+                    headers: {"Internship-Auth": userToken}
+                }
+            },
+            invalidatesTags: ['ProductReviews']
+        }),
         addToCart: builder.mutation({
             query: (args) => {
                 const {userId, userToken, newProduct} = args;
-                console.log(userId, userToken);
                 return {
                     url: `http://localhost:3001/cart/${userId}`,
                     method: 'PUT',
@@ -93,6 +103,7 @@ export const {
     useGetSingleStoreProductQuery,
     useGetRequiredStoreProductsQuery,
     useGetReviewsForProductQuery,
+    useRemoveReviewFromProductMutation,
     useAddReviewToProductMutation,
     useAddToCartMutation,
     useRemoveFromCartMutation

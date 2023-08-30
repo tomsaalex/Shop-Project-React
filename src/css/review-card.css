@@ -1,4 +1,5 @@
 .review-card-wrapper{
+    position: relative;
     color: white;
     width: 70%;
     background-color: #181818;

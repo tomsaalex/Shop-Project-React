@@ -25,7 +25,6 @@ export default function ProductPage() {
         [currentImageIndex, setCurrentImageIndex] = useState(0),
         {product_id} = useParams();
 
-    console.log(product_id);
     const [addReviewToProduct, addReviewResponse] = useAddReviewToProductMutation();
 
     const {
